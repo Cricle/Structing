@@ -9,11 +9,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{97CAD4A5-C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Structing.Core.Test", "test\Structing.Core.Test\Structing.Core.Test.csproj", "{00146CE9-E73D-4805-9502-729C69439E43}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Structing", "src\Structing\Structing.csproj", "{60A066CD-989F-4C2C-9DA3-D2DA1A94B4BA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Structing", "src\Structing\Structing.csproj", "{60A066CD-989F-4C2C-9DA3-D2DA1A94B4BA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Structing.Test", "test\Structing.Test\Structing.Test.csproj", "{1CC04136-82EC-48BC-AD72-0C46D36E28B1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Structing.Test", "test\Structing.Test\Structing.Test.csproj", "{1CC04136-82EC-48BC-AD72-0C46D36E28B1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NullModule", "test\NullModule\NullModule.csproj", "{D4707DF7-1161-4891-A205-0F6BBE17B96F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NullModule", "test\NullModule\NullModule.csproj", "{D4707DF7-1161-4891-A205-0F6BBE17B96F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{2B3AE12C-2794-4B78-AEA5-973FF95ED158}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Structing.Single.Sample", "samples\Structing.Single.Sample\Structing.Single.Sample.csproj", "{046519B6-4D7F-404F-B76C-77C5D4C19799}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -85,6 +89,18 @@ Global
 		{D4707DF7-1161-4891-A205-0F6BBE17B96F}.Release|x64.Build.0 = Release|Any CPU
 		{D4707DF7-1161-4891-A205-0F6BBE17B96F}.Release|x86.ActiveCfg = Release|Any CPU
 		{D4707DF7-1161-4891-A205-0F6BBE17B96F}.Release|x86.Build.0 = Release|Any CPU
+		{046519B6-4D7F-404F-B76C-77C5D4C19799}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{046519B6-4D7F-404F-B76C-77C5D4C19799}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{046519B6-4D7F-404F-B76C-77C5D4C19799}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{046519B6-4D7F-404F-B76C-77C5D4C19799}.Debug|x64.Build.0 = Debug|Any CPU
+		{046519B6-4D7F-404F-B76C-77C5D4C19799}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{046519B6-4D7F-404F-B76C-77C5D4C19799}.Debug|x86.Build.0 = Debug|Any CPU
+		{046519B6-4D7F-404F-B76C-77C5D4C19799}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{046519B6-4D7F-404F-B76C-77C5D4C19799}.Release|Any CPU.Build.0 = Release|Any CPU
+		{046519B6-4D7F-404F-B76C-77C5D4C19799}.Release|x64.ActiveCfg = Release|Any CPU
+		{046519B6-4D7F-404F-B76C-77C5D4C19799}.Release|x64.Build.0 = Release|Any CPU
+		{046519B6-4D7F-404F-B76C-77C5D4C19799}.Release|x86.ActiveCfg = Release|Any CPU
+		{046519B6-4D7F-404F-B76C-77C5D4C19799}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -93,6 +109,7 @@ Global
 		{00146CE9-E73D-4805-9502-729C69439E43} = {97CAD4A5-C9C7-4073-AB6E-7118DEAD3312}
 		{1CC04136-82EC-48BC-AD72-0C46D36E28B1} = {97CAD4A5-C9C7-4073-AB6E-7118DEAD3312}
 		{D4707DF7-1161-4891-A205-0F6BBE17B96F} = {97CAD4A5-C9C7-4073-AB6E-7118DEAD3312}
+		{046519B6-4D7F-404F-B76C-77C5D4C19799} = {2B3AE12C-2794-4B78-AEA5-973FF95ED158}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F1DD639D-97CE-47F9-9AC6-B7138B56B1A1}

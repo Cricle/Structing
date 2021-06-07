@@ -57,6 +57,18 @@ namespace Structing
             await moduleEntry.ReadyAsync(context);
             await moduleEntry.AfterReadyAsync(context);
         }
+        public static Task<IServiceProvider> RunAsync(this IModuleEntry modules,
+            IServiceCollection services = null,
+            IConfiguration configuration = null,
+            IDictionary feature = null)
+        {
+            if (modules is null)
+            {
+                throw new ArgumentNullException(nameof(modules));
+            }
+
+            return RunAsync(new IModuleEntry[] { modules }, services, configuration, feature);
+        }
         public static async Task<IServiceProvider> RunAsync(this IEnumerable<IModuleEntry> modules,
             IServiceCollection services = null,
             IConfiguration configuration = null,

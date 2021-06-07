@@ -56,7 +56,8 @@ namespace Structing.Test
             var rsCtx = new RegisteContext(new ServiceCollection());
             var mdRd = new NullModuelReady();
 
-            await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => ModuleEntryExtensions.RunAsync(null));
+            await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => ModuleEntryExtensions.RunAsync((IEnumerable<IModuleEntry>)null));
+            await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => ModuleEntryExtensions.RunAsync((IModuleEntry)null));
             await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => ModuleEntryExtensions.RunReadyAsync(null,rdCtx));
             await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => ModuleEntryExtensions.RunReadyAsync(mdRd,null));
             Assert.ThrowsException<ArgumentNullException>(() => ModuleEntryExtensions.RunRegister(null, new ServiceCollection()));

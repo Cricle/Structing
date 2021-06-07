@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Structing.Core\Structing.Core.csproj" />
+    <ProjectReference Include="..\..\src\Structing\Structing.csproj" />
+  </ItemGroup>
+
+</Project>
