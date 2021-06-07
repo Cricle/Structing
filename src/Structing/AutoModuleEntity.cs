@@ -1,4 +1,5 @@
-﻿using Structing.Core.Annotations;
+﻿using Structing.Core;
+using Structing.Core.Annotations;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -7,7 +8,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
-namespace Structing.Core
+namespace Structing
 {
     /// <summary>
     /// 表示模块实体基类

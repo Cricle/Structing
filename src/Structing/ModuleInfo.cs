@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Reflection;
+using Structing.Core;
+using Structing.Core.Annotations;
 
-namespace Structing.Core
+namespace Structing
 {
     /// <summary>
     /// <inheritdoc cref="IModuleInfo"/>
@@ -30,14 +32,6 @@ namespace Structing.Core
                 [ModuleInfoConst.VersionKey] = assemblyName.Version,
                 [ModuleInfoConst.CultureKey] = assemblyName.CultureInfo
             };
-        }
-        /// <summary>
-        /// 调用以从调用者程序集创建类型<see cref="ModuleInfo"/>
-        /// </summary>
-        /// <returns>模块信息</returns>
-        public static ModuleInfo FromAssembly()
-        {
-            return FromAssembly(Assembly.GetExecutingAssembly());
         }
     }
 }

@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Structing.Core;
 
-namespace Structing.Core.Annotations
+namespace Structing.Annotations
 {
     /// <summary>
     /// 表示准备的调用

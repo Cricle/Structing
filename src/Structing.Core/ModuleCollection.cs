@@ -12,7 +12,7 @@ namespace Structing.Core
         {
             get
             {
-                if (Count==0)
+                if (Count == 0)
                 {
                     return 0;
                 }
@@ -22,7 +22,12 @@ namespace Structing.Core
 
         public bool HasType(Type type)
         {
+#if NETSTANDARD1_0
+            return this.Any(x => x.GetType() == type);
+#else
+
             return this.Any(x => x.GetType().IsEquivalentTo(type));
+#endif
         }
 
         public async Task AfterReadyAsync(IReadyContext context)
@@ -41,9 +46,9 @@ namespace Structing.Core
             }
         }
 
-        public IModuleInfo GetModuleInfo(IServiceProvider provider)
+        public virtual IModuleInfo GetModuleInfo(IServiceProvider provider)
         {
-            return ModuleInfo.FromAssembly(GetType().Assembly);
+            throw new NotSupportedException();
         }
 
         public async Task ReadyAsync(IReadyContext context)

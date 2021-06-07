@@ -2,14 +2,16 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Structing.Core.Annotations;
+using Structing.Core;
 
-namespace Structing.Core.Annotations
+namespace Structing.Annotations
 {
     /// <summary>
     /// 启用服务
     /// </summary>
-    [AttributeUsage(AttributeTargets.Class| AttributeTargets.Interface,AllowMultiple =true,Inherited =false)]
-    public class EnableServiceAttribute:ServiceRegisterAttribute
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface, AllowMultiple = true, Inherited = false)]
+    public class EnableServiceAttribute : ServiceRegisterAttribute
     {
 
         /// <summary>

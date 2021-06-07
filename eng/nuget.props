@@ -1,0 +1,11 @@
+﻿<Project>
+	<PropertyGroup>
+        <Authors>Cricle</Authors>
+        <Description>An easy to structing struct app framework.</Description>
+        <Copyright>Cricle©2021</Copyright>
+        <RepositoryUrl>https://github.com/Cricle/Structing</RepositoryUrl>
+	</PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)'=='Release'">
+        <GeneratePackageOnBuild >true</GeneratePackageOnBuild>
+    </PropertyGroup>
+</Project>

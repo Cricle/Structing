@@ -1,4 +1,4 @@
-﻿namespace Structing.Core
+﻿namespace Structing
 {
     /// <summary>
     /// 表示模型信息的常数

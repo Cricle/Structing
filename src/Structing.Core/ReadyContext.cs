@@ -7,14 +7,14 @@ namespace Structing.Core
 {
     public class ReadyContext : IReadyContext
     {
-        public ReadyContext(IServiceProvider provider, IConfiguration configuration, IDictionary features=null)
+        public ReadyContext(IServiceProvider provider, IConfiguration configuration, IDictionary features = null)
         {
             Provider = provider;
             Configuration = configuration;
             Features = features ?? new Dictionary<object, object>();
         }
         public ReadyContext(IServiceProvider provider, IDictionary features = null)
-            :this(provider,provider.GetService(typeof(IConfiguration)) as IConfiguration, features)
+            : this(provider, provider.GetService(typeof(IConfiguration)) as IConfiguration, features)
         {
         }
 

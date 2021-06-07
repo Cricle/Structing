@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Structing.Core.Annotations;
+using Structing.Core;
 
-namespace Structing.Core.Annotations
+namespace Structing.Annotations
 {
     /// <summary>
     /// 模块初始化器
@@ -21,8 +23,12 @@ namespace Structing.Core.Annotations
             {
                 throw new InvalidOperationException($"Type {targetType.FullName} must implement {InterfaceName} and must class, not abstract!");
             }
-            var val = (IModuleInit)Activator.CreateInstance(targetType);
+            var val = CreateInstance(context, targetType);
             return val.InvokeAsync(context);
+        }
+        protected virtual IModuleInit CreateInstance(IReadyContext context, Type targetType)
+        {
+            return (IModuleInit)Activator.CreateInstance(targetType);
         }
     }
 }
