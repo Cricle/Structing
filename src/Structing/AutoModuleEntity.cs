@@ -10,58 +10,75 @@ using System.Threading.Tasks;
 
 namespace Structing
 {
-    /// <summary>
-    /// 表示模块实体基类
-    /// </summary>
     public abstract class AutoModuleEntity : IModuleEntry
     {
-        ///<inheritdoc/>
         public virtual int Order { get; } = 0;
 
-        /// <inheritdoc/>
+        public bool Parallel { get; set; }
+
         public virtual IModuleInfo GetModuleInfo(IServiceProvider provider)
         {
             return ModuleInfo.FromAssembly(GetAssembly());
         }
-        /// <inheritdoc/>
-        public virtual async Task ReadyAsync(IReadyContext context)
+        public virtual Task ReadyAsync(IReadyContext context)
         {
-            var types = FindType<ReadyModuleAttribute>();
-            foreach (var type in types)
-            {
-                foreach (var attr in type.Value)
-                {
-                    await attr.ReadyAsync(context, type.Key);
-                }
-            }
+            return RunAttirbuteAsync<ReadyModuleAttribute>((a, c) => c.ReadyAsync(context, a));
         }
-        /// <inheritdoc/>
         public virtual void Register(IRegisteContext context)
         {
-            var types = FindType<ServiceRegisterAttribute>();
-            foreach (var type in types)
+            RunAttribute<ServiceRegisterAttribute>((a, b) => b.Register(context, a));
+        }
+        protected void RunAttribute<T>(Action<Type, T> run)
+            where T : Attribute
+        {
+            var attrs = FindType<T>();
+            foreach (var item in attrs)
             {
-                foreach (var attr in type.Value)
+                foreach (var attr in item.Value)
                 {
-                    attr.Register(context, type.Key);
+                    run(item.Key, attr);
                 }
             }
         }
-        /// <summary>
-        /// 调用以寻找类型
-        /// </summary>
-        /// <typeparam name="TAttr">特性类型</typeparam>
-        /// <returns>类型与特性组的映射</returns>
-        protected IReadOnlyDictionary<Type, TAttr[]> FindType<TAttr>()
-            where TAttr : Attribute
+        protected async Task RunAttirbuteAsync<T>(Func<Type, T, Task> run)
+            where T : Attribute
+        {
+            var attrs = FindType<T>();
+            if (attrs.Count != 0)
+            {
+                List<Task> tasks = null;
+                if (Parallel)
+                {
+                    tasks = new List<Task>();
+                }
+                foreach (var item in attrs)
+                {
+                    foreach (var attr in item.Value)
+                    {
+                        var task = run(item.Key, attr);
+                        if (tasks is null)
+                        {
+                            await task;
+                        }
+                        else
+                        {
+                            tasks.Add(task);
+                        }
+                    }
+                }
+                if (tasks != null)
+                {
+                    await Task.WhenAll(tasks);
+                }
+            }
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected IReadOnlyDictionary<Type, T[]> FindType<T>()
+            where T : Attribute
         {
             var types = GetAssembly().GetTypes();
-            return types.ToDictionary(x => x, x => x.GetCustomAttributes<TAttr>().ToArray());
+            return types.ToDictionary(x => x, x => x.GetCustomAttributes<T>().ToArray());
         }
-        /// <summary>
-        /// 调用以获取程序集
-        /// </summary>
-        /// <returns></returns>
         protected virtual Assembly GetAssembly()
         {
             return GetType().Assembly;
@@ -70,26 +87,21 @@ namespace Structing
         private static Task MakeComplatedTask()
         {
 #if NET45
-            var task = new TaskCompletionSource<object>();
-            task.SetResult(null);
-            return task.Task;
+            return Task.FromResult(false);
 #else
             return Task.CompletedTask;
 #endif
         }
-        /// <inheritdoc/>
         public virtual Task CloseAsync(IServiceProvider provider)
         {
             return MakeComplatedTask();
         }
 
-        /// <inheritdoc/>
         public virtual Task BeforeReadyAsync(IReadyContext context)
         {
             return MakeComplatedTask();
         }
 
-        /// <inheritdoc/>
         public virtual Task AfterReadyAsync(IReadyContext context)
         {
             return MakeComplatedTask();

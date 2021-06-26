@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NullModule", "test\NullModu
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{2B3AE12C-2794-4B78-AEA5-973FF95ED158}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Structing.Single.Sample", "samples\Structing.Single.Sample\Structing.Single.Sample.csproj", "{046519B6-4D7F-404F-B76C-77C5D4C19799}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Structing.Single.Sample", "samples\Structing.Single.Sample\Structing.Single.Sample.csproj", "{046519B6-4D7F-404F-B76C-77C5D4C19799}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

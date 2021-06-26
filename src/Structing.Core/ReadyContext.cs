@@ -9,12 +9,12 @@ namespace Structing.Core
     {
         public ReadyContext(IServiceProvider provider, IConfiguration configuration, IDictionary features = null)
         {
-            Provider = provider;
+            Provider = provider ?? throw new ArgumentNullException(nameof(provider));
             Configuration = configuration;
             Features = features ?? new Dictionary<object, object>();
         }
         public ReadyContext(IServiceProvider provider, IDictionary features = null)
-            : this(provider, provider.GetService(typeof(IConfiguration)) as IConfiguration, features)
+            : this(provider, provider?.GetService(typeof(IConfiguration)) as IConfiguration, features)
         {
         }
 

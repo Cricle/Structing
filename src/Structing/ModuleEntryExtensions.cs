@@ -37,9 +37,7 @@ namespace Structing
             {
                 throw new ArgumentNullException(nameof(services));
             }
-
-            var ctx = new RegisteContext(services);
-            moduleEntry.RunRegister(ctx);
+            moduleEntry.RunRegister(new RegisteContext(services));
         }
         public static async Task RunReadyAsync(this IModuleReady moduleEntry, IReadyContext context)
         {
@@ -57,7 +55,7 @@ namespace Structing
             await moduleEntry.ReadyAsync(context);
             await moduleEntry.AfterReadyAsync(context);
         }
-        public static Task<IServiceProvider> RunAsync(this IModuleEntry modules,
+        public static Task<IModuleEntryRunResult> RunAsync(this IModuleEntry modules,
             IServiceCollection services = null,
             IConfiguration configuration = null,
             IDictionary feature = null)
@@ -69,7 +67,24 @@ namespace Structing
 
             return RunAsync(new IModuleEntry[] { modules }, services, configuration, feature);
         }
-        public static async Task<IServiceProvider> RunAsync(this IEnumerable<IModuleEntry> modules,
+        class ModuleEntryRunResult : IModuleEntryRunResult,IServiceProvider
+        {
+            public IEnumerable<IModuleEntry> ModuleEntries { get; set; }
+
+            public IServiceCollection Services { get; set; }
+
+            public IConfiguration Configuration { get; set; }
+
+            public IDictionary Feature { get; set; }
+
+            public IServiceProvider ServiceProvider { get; set; }
+
+            public object GetService(Type serviceType)
+            {
+                return ServiceProvider.GetService(serviceType);
+            }
+        }
+        public static async Task<IModuleEntryRunResult> RunAsync(this IEnumerable<IModuleEntry> modules,
             IServiceCollection services = null,
             IConfiguration configuration = null,
             IDictionary feature = null)
@@ -106,7 +121,15 @@ namespace Structing
             {
                 await item.AfterReadyAsync(readyContext);
             }
-            return provider;
+            var res = new ModuleEntryRunResult
+            {
+                ServiceProvider = provider,
+                Configuration = configuration,
+                Feature = feature,
+                ModuleEntries = modules,
+                Services = services
+            };
+            return res;
         }
     }
 }

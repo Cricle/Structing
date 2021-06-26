@@ -6,9 +6,9 @@ namespace Structing.Core
 {
     public class RegisteContext : IRegisteContext
     {
-        public RegisteContext(IServiceCollection services, IDictionary features=null)
+        public RegisteContext(IServiceCollection services, IDictionary features = null)
         {
-            Services = services;
+            Services = services ?? throw new System.ArgumentNullException(nameof(services));
             Features = features ?? new Dictionary<object, object>();
         }
 

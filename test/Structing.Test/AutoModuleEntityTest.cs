@@ -22,9 +22,11 @@ namespace Structing.Test
             }
         }
         [TestMethod]
-        public async Task AutoModule()
+        [DataRow(true)]
+        [DataRow(false)]
+        public async Task AutoModule(bool parallel)
         {
-            var moduel = new ValueAutoModuleEntity();
+            var moduel = new ValueAutoModuleEntity { Parallel= parallel };
             var info=moduel.GetModuleInfo(null);
             Assert.IsNotNull(info);
 

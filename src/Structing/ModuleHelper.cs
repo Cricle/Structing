@@ -9,7 +9,7 @@ namespace Structing
 {
     public static class ModuleHelper
     {
-        public static Task<IServiceProvider> RunAssemblyAsync(Assembly assembly,
+        public static Task<IModuleEntryRunResult> RunAssemblyAsync(Assembly assembly,
             IServiceCollection services = null,
             IConfiguration configuration = null,
             IDictionary feature = null)
@@ -17,8 +17,8 @@ namespace Structing
             var entity = new ThisModuleEntry(assembly);
             return entity.RunAsync(services, configuration, feature);
         }
-#if NETSTANDARD2_0
-        public static Task<IServiceProvider> RunAssemblyAsync(
+#if !NET45
+        public static Task<IModuleEntryRunResult> RunAssemblyAsync(
             IServiceCollection services = null,
             IConfiguration configuration = null,
             IDictionary feature = null)
