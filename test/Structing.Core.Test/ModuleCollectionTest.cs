@@ -32,7 +32,7 @@ namespace Structing.Core.Test
         [TestMethod]
         public void NothingElement_OrderMustZero()
         {
-            Assert.AreEqual(0, new ValueModuelEntry().Order);
+            Assert.AreEqual(0, new ModuleCollection().Order);
         }
         [TestMethod]
         public async Task GivenAnyModuleEntries_CallAllMethod_AllMustInvoked()
