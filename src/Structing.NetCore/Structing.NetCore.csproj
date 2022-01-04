@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<Import Project="..\..\eng\nuget.props" />
+
+	<PropertyGroup>
+		<TargetFrameworks>netcoreapp2.1;netcoreapp3.1</TargetFrameworks>
+		<NoWarn>NETSDK1138</NoWarn>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="McMaster.NETCore.Plugins" Version="1.4.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Structing\Structing.csproj" />
+	</ItemGroup>
+
+</Project>

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30114.105
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32002.185
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Structing.Core", "src\Structing.Core\Structing.Core.csproj", "{BDBC7528-22EF-4E19-810A-64B04C95810F}"
 EndProject
@@ -19,7 +19,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{2B3A
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Structing.Single.Sample", "samples\Structing.Single.Sample\Structing.Single.Sample.csproj", "{046519B6-4D7F-404F-B76C-77C5D4C19799}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Structing.Outsize", "src\Structing.Outsize\Structing.Outsize.csproj", "{E26DE4BF-A670-408B-8278-C5B08061A25E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Structing.Outsize", "src\Structing.Outsize\Structing.Outsize.csproj", "{E26DE4BF-A670-408B-8278-C5B08061A25E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Structing.NetCore", "src\Structing.NetCore\Structing.NetCore.csproj", "{BF0BB456-7843-4122-ADD0-68CCB7CD5C82}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -115,6 +117,18 @@ Global
 		{E26DE4BF-A670-408B-8278-C5B08061A25E}.Release|x64.Build.0 = Release|Any CPU
 		{E26DE4BF-A670-408B-8278-C5B08061A25E}.Release|x86.ActiveCfg = Release|Any CPU
 		{E26DE4BF-A670-408B-8278-C5B08061A25E}.Release|x86.Build.0 = Release|Any CPU
+		{BF0BB456-7843-4122-ADD0-68CCB7CD5C82}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF0BB456-7843-4122-ADD0-68CCB7CD5C82}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF0BB456-7843-4122-ADD0-68CCB7CD5C82}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{BF0BB456-7843-4122-ADD0-68CCB7CD5C82}.Debug|x64.Build.0 = Debug|Any CPU
+		{BF0BB456-7843-4122-ADD0-68CCB7CD5C82}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{BF0BB456-7843-4122-ADD0-68CCB7CD5C82}.Debug|x86.Build.0 = Debug|Any CPU
+		{BF0BB456-7843-4122-ADD0-68CCB7CD5C82}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF0BB456-7843-4122-ADD0-68CCB7CD5C82}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF0BB456-7843-4122-ADD0-68CCB7CD5C82}.Release|x64.ActiveCfg = Release|Any CPU
+		{BF0BB456-7843-4122-ADD0-68CCB7CD5C82}.Release|x64.Build.0 = Release|Any CPU
+		{BF0BB456-7843-4122-ADD0-68CCB7CD5C82}.Release|x86.ActiveCfg = Release|Any CPU
+		{BF0BB456-7843-4122-ADD0-68CCB7CD5C82}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
