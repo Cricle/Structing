@@ -86,7 +86,7 @@ namespace Structing
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static Task MakeComplatedTask()
         {
-#if NET45
+#if NET452
             return Task.FromResult(false);
 #else
             return Task.CompletedTask;

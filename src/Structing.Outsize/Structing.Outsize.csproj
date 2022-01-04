@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <Import Project="..\..\eng\nuget.props"/>
   <PropertyGroup>
-    <TargetFrameworks>net45;netstandard2.0;netcoreapp3.0;net5.0</TargetFrameworks>
+    <TargetFrameworks>net452;netstandard2.0;netcoreapp3.0;net5.0</TargetFrameworks>
     <NoWarn>NETSDK</NoWarn>
   </PropertyGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net5.0' or '$(TargetFramework)' == 'netcoreapp3.0'">
