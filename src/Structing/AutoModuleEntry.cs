@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Structing
 {
-    public abstract class AutoModuleEntity : IModuleEntry
+    public abstract class AutoModuleEntry : IModuleEntry
     {
         public virtual int Order { get; } = 0;
 

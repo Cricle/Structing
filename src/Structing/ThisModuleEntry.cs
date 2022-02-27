@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Structing
 {
-    public class ThisModuleEntry : AutoModuleEntity
+    public class ThisModuleEntry : AutoModuleEntry
     {
         public ThisModuleEntry(Assembly assembly,
             Func<IServiceProvider,IModuleInfo> moduleInfoFactory)

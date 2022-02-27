@@ -9,6 +9,18 @@ namespace Structing.Core
 {
     public class ModuleCollection : List<IModuleEntry>, IModuleEntry
     {
+        public ModuleCollection()
+        {
+        }
+
+        public ModuleCollection(IEnumerable<IModuleEntry> collection) : base(collection)
+        {
+        }
+
+        public ModuleCollection(int capacity) : base(capacity)
+        {
+        }
+
         public int Order
         {
             get

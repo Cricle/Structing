@@ -14,7 +14,7 @@ namespace Structing.Test
     [TestClass]
     public class AutoModuleEntityTest
     {
-        public class ValueAutoModuleEntity : AutoModuleEntity
+        public class ValueAutoModuleEntity : AutoModuleEntry
         {
             protected override Assembly GetAssembly()
             {
