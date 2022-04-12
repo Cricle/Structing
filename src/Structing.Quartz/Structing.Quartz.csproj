@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\..\eng\nuget.props" />
+  <PropertyGroup>
+    <TargetFrameworks>net461;netstandard2.0</TargetFrameworks>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Quartz" Version="3.4.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Structing.Core\Structing.Core.csproj" />
+  </ItemGroup>
+
+</Project>
