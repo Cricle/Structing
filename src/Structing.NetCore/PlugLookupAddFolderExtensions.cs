@@ -9,7 +9,7 @@ namespace Structing.NetCore
     {
         public static IList<PluginLoader> AddFolder(this PlugLookup pluginLookup, string folderPath)
         {
-            return AddFolder(pluginLookup, folderPath, SearchOption.TopDirectoryOnly, null);
+            return AddFolder(pluginLookup, folderPath, SearchOption.TopDirectoryOnly, _ => { });
         }
         public static IList<PluginLoader> AddFolder(this PlugLookup pluginLookup, string folderPath, Action<PluginConfig> configure)
         {
@@ -17,7 +17,7 @@ namespace Structing.NetCore
         }
         public static IList<PluginLoader> AddFolder(this PlugLookup pluginLookup, string folderPath, SearchOption searchOption)
         {
-            return AddFolder(pluginLookup, folderPath, searchOption, null);
+            return AddFolder(pluginLookup, folderPath, searchOption, _ => { });
         }
         public static IList<PluginLoader> AddFolder(this PlugLookup pluginLookup,string folderPath, SearchOption searchOption,Action<PluginConfig> configure)
         {
@@ -26,15 +26,17 @@ namespace Structing.NetCore
                 throw new DirectoryNotFoundException(folderPath);
             }
             var loaders = new List<PluginLoader>();
-            foreach (var item in Directory.EnumerateDirectories(folderPath, "*", searchOption))
+            foreach (var item in Directory.EnumerateFiles(folderPath, "*.deps.json", SearchOption.AllDirectories))
             {
-                var folderName=Path.GetFileName(item);
-                var dll = Path.Combine(item, folderName + ".dll");
-                if (File.Exists(dll))
+                var n = Path.GetFileName(item);
+                var fn = n.Substring(0, n.Length - 10);
+                var dllName = Path.Combine(Path.GetDirectoryName(item), fn + ".dll");
+                if (File.Exists(dllName))
                 {
-                    loaders.Add(pluginLookup.AddFile(dll, configure));
+                    pluginLookup.AddFile(dllName, configure);
                 }
             }
+
             return loaders;
         }
     }
