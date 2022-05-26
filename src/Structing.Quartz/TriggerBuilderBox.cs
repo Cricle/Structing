@@ -11,7 +11,7 @@ namespace Structing.Quartz
         public TriggerBuilderBox(TriggerBuilder builder)
         {
             this.isIgnore = false;
-            this.Builder = builder;
+            this.Builder = builder ?? throw new System.ArgumentNullException(nameof(builder));
         }
 
         public bool IsIgnore => isIgnore;

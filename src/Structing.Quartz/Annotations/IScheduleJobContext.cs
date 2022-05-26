@@ -14,7 +14,7 @@ namespace Structing.Quartz.Annotations
 
         IScheduler Scheduler { get; }
 
-        IJobConfiger Configer { get;  }
+        IJobConfiger Configer { get; }
 
         object Arg { get; }
     }

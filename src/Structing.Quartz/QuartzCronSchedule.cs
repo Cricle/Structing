@@ -1,6 +1,6 @@
-﻿using Structing.Quartz.Annotations;
+﻿using Quartz;
+using Structing.Quartz.Annotations;
 using System;
-using Quartz;
 
 namespace Structing.Quartz
 {
@@ -21,7 +21,7 @@ namespace Structing.Quartz
             With(builderBox.Builder);
             builderBox.Builder.WithCronSchedule(CronExpression, x =>
             {
-                if (TimeZone!=null)
+                if (TimeZone != null)
                 {
                     x.InTimeZone(TimeZone);
                 }

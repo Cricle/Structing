@@ -1,6 +1,6 @@
-﻿using Structing.Quartz.Annotations;
+﻿using Quartz;
+using Structing.Quartz.Annotations;
 using System;
-using Quartz;
 
 namespace Structing.Quartz
 {

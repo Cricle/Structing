@@ -1,7 +1,4 @@
-﻿using Quartz;
-using Structing.Core;
-using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace Structing.Quartz.Annotations
 {

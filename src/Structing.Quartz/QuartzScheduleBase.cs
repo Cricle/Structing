@@ -1,6 +1,6 @@
-﻿using Structing.Quartz.Annotations;
+﻿using Quartz;
+using Structing.Quartz.Annotations;
 using System;
-using Quartz;
 
 namespace Structing.Quartz
 {
@@ -41,16 +41,16 @@ namespace Structing.Quartz
                     builder.WithIdentity(Identity);
                 }
             }
-            if (StartAt!=null)
+            if (StartAt != null)
             {
                 builder.StartAt(StartAt.Value);
             }
             builder.EndAt(EndAt);
-            if (Priority!=null)
+            if (Priority != null)
             {
                 builder.WithPriority(Priority.Value);
             }
-            if (JobDataMap!=null)
+            if (JobDataMap != null)
             {
                 builder.UsingJobData(JobDataMap);
             }
