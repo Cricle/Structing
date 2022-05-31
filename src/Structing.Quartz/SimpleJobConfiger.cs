@@ -10,9 +10,11 @@ namespace Structing.Quartz
         private static readonly Task<ConfigResults> skip = Task.FromResult(ConfigResults.Skip);
         private static readonly Task<ConfigResults> @continue = Task.FromResult(ConfigResults.Continue);
 
+        private static readonly Task complatedTask = Task.FromResult(false);
+
         public virtual Task ComplatedAsync(IComplatedScheduleJobContext context)
         {
-            return Task.CompletedTask;
+            return complatedTask;
         }
 
         public Task<ConfigResults> ConfigKeyAsync(IJobKeyScheduleJobContext context)
@@ -67,8 +69,17 @@ namespace Structing.Quartz
             }
             return EndConfigTriggerAsync(context, schedule);
         }
+        protected virtual DateTime? GetStartAt(IJobTriggerScheduleJobContext context, IQuartzSchedule schedule)
+        {
+            return null;
+        }
         protected virtual Task<ConfigResults> EndConfigTriggerAsync(IJobTriggerScheduleJobContext context, IQuartzSchedule schedule)
         {
+            var startAt = GetStartAt(context,schedule);
+            if (startAt != null)
+            {
+                context.TriggerBuilder.StartAt(startAt.Value);
+            }
             return schedule == null ? skip : @continue;
         }
         protected abstract IQuartzSchedule GetSchedule(IJobTriggerScheduleJobContext context);
@@ -79,7 +90,7 @@ namespace Structing.Quartz
             {
                 Interval = interval,
                 RepeatCount = (repeatCount ?? 2) - 1,
-                RepeatForever = repeatCount == null
+                RepeatForever = repeatCount == null,
             };
         }
 

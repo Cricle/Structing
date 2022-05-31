@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 
 namespace Structing.Quartz.Sample
 {
-
     internal class Program
     {
         static void Main(string[] args)
@@ -46,6 +45,7 @@ namespace Structing.Quartz.Sample
                 ["name"] = "aaa"
             };
         }
+
         protected override IQuartzSchedule GetSchedule(IJobTriggerScheduleJobContext context)
         {
             return Simple(TimeSpan.FromSeconds(1), 5);
