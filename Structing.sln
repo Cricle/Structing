@@ -29,7 +29,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Structing.AspNetCore", "src
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Structing.Quartz", "src\Structing.Quartz\Structing.Quartz.csproj", "{DBF5CB75-5F3C-45ED-9841-21C1D46BB55F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Structing.Quartz.Sample", "samples\Structing.Quartz.Sample\Structing.Quartz.Sample.csproj", "{A930D230-6E28-411E-A0F9-4BCDD3ACBB86}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Structing.Quartz.Sample", "samples\Structing.Quartz.Sample\Structing.Quartz.Sample.csproj", "{A930D230-6E28-411E-A0F9-4BCDD3ACBB86}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "eng", "eng", "{A3896651-2C9A-456C-A361-4F94B137E947}"
+	ProjectSection(SolutionItems) = preProject
+		eng\nuget.props = eng\nuget.props
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
