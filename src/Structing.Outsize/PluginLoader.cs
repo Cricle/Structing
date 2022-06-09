@@ -12,7 +12,7 @@ namespace Structing.Outsize
 
     internal class DefaultPluginLoader : IPluginLoader
     {
-        public static readonly DefaultPluginLoader Instance=new DefaultPluginLoader();
+        public static readonly DefaultPluginLoader Instance = new DefaultPluginLoader();
 
         private DefaultPluginLoader()
         {
@@ -53,10 +53,10 @@ namespace Structing.Outsize
         private readonly AssemblyDependencyResolver _resolver;
 
         public PluginLoader(string pluginPath, bool isCollectible = false)
-            :base(isCollectible)
+            : base(isCollectible)
         {
             _resolver = new AssemblyDependencyResolver(pluginPath);
-            Folders= new HashSet<string>();
+            Folders = new HashSet<string>();
         }
 
         public ISet<string> Folders { get; }

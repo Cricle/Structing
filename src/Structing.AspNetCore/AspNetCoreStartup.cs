@@ -1,14 +1,14 @@
-﻿using Structing.Core;
-using Structing.Web;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Hosting;
+using Structing.Core;
+using Structing.Web;
 using System.Collections;
 
 namespace Structing.AspNetCore
 {
     public class AspNetCoreStartup : Startup
     {
-        public AspNetCoreStartup(WebHostBuilderContext context, IModuleEntry module) 
+        public AspNetCoreStartup(WebHostBuilderContext context, IModuleEntry module)
             : base(module)
         {
             Context = context;

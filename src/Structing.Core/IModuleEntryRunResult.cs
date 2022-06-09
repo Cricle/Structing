@@ -1,11 +1,10 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using Structing.Core;
-using Microsoft.Extensions.Configuration;
-using System;
 
-namespace Structing
+namespace Structing.Core
 {
     public interface IModuleEntryRunResult : IServiceProvider
     {

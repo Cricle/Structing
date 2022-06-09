@@ -2,12 +2,11 @@
 using Microsoft.Extensions.DependencyModel;
 using System.Runtime.Loader;
 #endif
+using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
 using System.Linq;
-using System;
-using System.Diagnostics;
+using System.Reflection;
 
 namespace Structing.Outsize
 {
@@ -33,10 +32,10 @@ namespace Structing.Outsize
             }
             else
             {
-                assembly= Load(loader, assemblyFullPath,loadPdb);
+                assembly = Load(loader, assemblyFullPath, loadPdb);
             }
 #else
-            assembly = Load(loader, assemblyFullPath,loadPdb);
+            assembly = Load(loader, assemblyFullPath, loadPdb);
 #endif
 
             if (assembly != null)
@@ -71,7 +70,7 @@ namespace Structing.Outsize
             var len = references.Length;
             for (int i = 0; i < len; i++)
             {
-                var reference= references[i];
+                var reference = references[i];
                 var exists = loader.Assemblies.Any(x => x.FullName == reference.FullName);
                 if (!exists && filesInDirectory.Contains(reference.Name))
                 {

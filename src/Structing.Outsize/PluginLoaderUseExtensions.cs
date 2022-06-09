@@ -30,7 +30,7 @@ namespace Structing.Outsize
         {
             return Load(loader, deps, throwIfFileNotFound, false);
         }
-        public static IEnumerable<Assembly> Load(this IPluginLoader loader, IEnumerable<string> deps, bool throwIfFileNotFound,bool loadPdb)
+        public static IEnumerable<Assembly> Load(this IPluginLoader loader, IEnumerable<string> deps, bool throwIfFileNotFound, bool loadPdb)
         {
             foreach (var item in deps)
             {

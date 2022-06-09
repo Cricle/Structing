@@ -1,6 +1,4 @@
 ﻿using System;
-using System.IO;
-using System.Linq;
 #if !NETSTANDARD
 using System.Security.Policy;
 #endif
@@ -24,7 +22,7 @@ namespace Structing.Outsize
 
         public static IPluginLoader Create()
         {
-           return new PluginLoader(Guid.NewGuid().ToString());
+            return new PluginLoader(Guid.NewGuid().ToString());
         }
 #endif
     }

@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Configuration;
-using Structing.Core;
 using Structing.Web;
 
 namespace System.Collections
@@ -22,7 +20,7 @@ namespace System.Collections
         }
         public static T EnsureGet<T>(this IDictionary map, string key)
         {
-            var val=Get<T>(map, key);
+            var val = Get<T>(map, key);
             if (val == null)
             {
                 throw new ArgumentException($"Key {key} not found in map");
@@ -31,7 +29,7 @@ namespace System.Collections
         }
         public static IApplicationBuilder GetApplicationBuilder(this IDictionary ctx)
         {
-            return EnsureGet<IApplicationBuilder>(ctx,ApplicationBuilderKey);
+            return EnsureGet<IApplicationBuilder>(ctx, ApplicationBuilderKey);
         }
         public static IServicePicker GetServicePicker(this IDictionary ctx)
         {

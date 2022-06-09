@@ -1,12 +1,7 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Structing.Annotations;
 using Structing.Core;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Structing.Test.Annotations
 {
@@ -17,7 +12,7 @@ namespace Structing.Test.Annotations
         {
 
         }
-        class A:IA
+        class A : IA
         {
 
         }
@@ -45,7 +40,7 @@ namespace Structing.Test.Annotations
             var attr = new EnableServiceAttribute
             {
                 ServiceLifetime = ServiceLifetime.Transient,
-                ImplementType=typeof(A)
+                ImplementType = typeof(A)
             };
             var ctx = MakeRegisterContext();
             attr.Register(ctx, typeof(IA));
@@ -61,7 +56,7 @@ namespace Structing.Test.Annotations
             {
                 ServiceLifetime = ServiceLifetime.Scoped,
                 ImplementType = typeof(A),
-                ServiceType=typeof(IA)
+                ServiceType = typeof(IA)
             };
             var ctx = MakeRegisterContext();
             attr.Register(ctx, typeof(object));

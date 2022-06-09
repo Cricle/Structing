@@ -1,10 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Quartz;
-using Structing.Core;
+﻿using Structing.Core;
 using Structing.Core.Annotations;
 using System;
-using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 
 namespace Structing.Quartz.Annotations
@@ -28,7 +24,7 @@ namespace Structing.Quartz.Annotations
         public override Task ReadyAsync(IReadyContext context, Type targetType)
         {
             return QuartzScheduleHelper.ScheduleAsync(context,
-                JobType,targetType,
+                JobType, targetType,
                 CreateFromProvider,
                 SkipWhenExists,
                 Replace);

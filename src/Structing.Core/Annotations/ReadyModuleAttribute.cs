@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Structing.Core.Annotations
@@ -8,6 +6,6 @@ namespace Structing.Core.Annotations
     [AttributeUsage(AttributeTargets.Class)]
     public abstract class ReadyModuleAttribute : Attribute
     {
-        public abstract Task ReadyAsync(IReadyContext context,Type targetType);
+        public abstract Task ReadyAsync(IReadyContext context, Type targetType);
     }
 }

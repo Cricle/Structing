@@ -11,7 +11,7 @@ namespace Structing.NetCore
     {
         public static readonly string ModuleTypeName = typeof(IModuleEntry).FullName;
 
-        private static readonly Type[] moduleTypes=new Type[] { typeof(IModuleEntry) };
+        private static readonly Type[] moduleTypes = new Type[] { typeof(IModuleEntry) };
 
         public PluginLoader AddFile(string path)
         {
@@ -38,7 +38,7 @@ namespace Structing.NetCore
             {
                 var types = item.LoadDefaultAssembly()
                             .GetExportedTypes()
-                            .Where(x => x.GetInterface(ModuleTypeName) != null&&!x.IsAbstract && x.GetConstructor(Type.EmptyTypes) != null);
+                            .Where(x => x.GetInterface(ModuleTypeName) != null && !x.IsAbstract && x.GetConstructor(Type.EmptyTypes) != null);
                 foreach (var type in types)
                 {
                     coll.Add(CreateEntry(type));

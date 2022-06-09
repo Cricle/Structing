@@ -1,19 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using System.Text;
 
-namespace Structing
+namespace Structing.Core
 {
     internal static class ArrayHelper<T>
     {
-#if NET452
+#if NETSTANDARD1_0
         private static readonly T[] EmptyArray = new T[0];
 #endif
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static T[] Empty()
         {
-#if NET452
+#if NETSTANDARD1_0
             return EmptyArray;
 #else
             return Array.Empty<T>();

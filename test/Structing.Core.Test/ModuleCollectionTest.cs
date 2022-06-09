@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Structing.Core.Test
@@ -10,8 +9,8 @@ namespace Structing.Core.Test
     [TestClass]
     public class ModuleCollectionTest
     {
-        
-        class NullModuleInfo:Dictionary<string,object>,IModuleInfo
+
+        class NullModuleInfo : Dictionary<string, object>, IModuleInfo
         {
 
         }
@@ -23,7 +22,7 @@ namespace Structing.Core.Test
             var info = new NullModuleInfo();
             for (int i = 0; i < count; i++)
             {
-                coll.Add(new ValueModuelEntry { Order = i ,Info=info});
+                coll.Add(new ValueModuelEntry { Order = i, Info = info });
             }
             var order = Enumerable.Range(0, count).Average();
             Assert.AreEqual((int)order, coll.Order);
@@ -47,12 +46,12 @@ namespace Structing.Core.Test
             var hashValueEntry = coll.HasType(typeof(ValueModuelEntry));
             Assert.IsTrue(hashValueEntry);
 
-            void Check(Func<ValueModuelEntry,bool> prop,string propertyName)
+            void Check(Func<ValueModuelEntry, bool> prop, string propertyName)
             {
                 for (int i = 0; i < coll.Count; i++)
                 {
                     var val = (ValueModuelEntry)coll[i];
-                    Assert.IsTrue(prop(val),$"The {i} {propertyName} is not true");
+                    Assert.IsTrue(prop(val), $"The {i} {propertyName} is not true");
                 }
             }
 

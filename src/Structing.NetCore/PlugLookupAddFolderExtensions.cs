@@ -19,7 +19,7 @@ namespace Structing.NetCore
         {
             return AddFolder(pluginLookup, folderPath, searchOption, _ => { });
         }
-        public static IList<PluginLoader> AddFolder(this PlugLookup pluginLookup,string folderPath, SearchOption searchOption,Action<PluginConfig> configure)
+        public static IList<PluginLoader> AddFolder(this PlugLookup pluginLookup, string folderPath, SearchOption searchOption, Action<PluginConfig> configure)
         {
             if (!Directory.Exists(folderPath))
             {

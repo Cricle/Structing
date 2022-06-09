@@ -3,9 +3,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Structing.Annotations;
 using Structing.Core;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Structing.Test.Annotations
@@ -35,7 +32,7 @@ namespace Structing.Test.Annotations
 
             Assert.IsTrue(AModuleIniter.IsInvokeAsync);
         }
-        class NoConstructModuleIniter:IModuleInit
+        class NoConstructModuleIniter : IModuleInit
         {
             private NoConstructModuleIniter()
             {
@@ -72,7 +69,7 @@ namespace Structing.Test.Annotations
             {
                 Index = 1;
             }
-            public InjectConstructModuleIniter(ServiceA serviceA,ServiceB serviceB)
+            public InjectConstructModuleIniter(ServiceA serviceA, ServiceB serviceB)
             {
                 Index = 2;
 
@@ -153,7 +150,7 @@ namespace Structing.Test.Annotations
         {
 
             [ModuleInitConstructor]
-            public DefaultValueConstructModuleIniter(ServiceA serviceA=null)
+            public DefaultValueConstructModuleIniter(ServiceA serviceA = null)
             {
             }
             public Task InvokeAsync(IReadyContext context)

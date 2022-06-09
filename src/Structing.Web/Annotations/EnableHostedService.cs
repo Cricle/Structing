@@ -4,8 +4,6 @@ using Microsoft.Extensions.Hosting;
 using Structing.Core;
 using Structing.Core.Annotations;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Structing.Web.Annotations
 {

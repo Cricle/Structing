@@ -1,4 +1,4 @@
-﻿namespace Structing
+﻿namespace Structing.Core
 {
     public static class ModuleInfoConst
     {

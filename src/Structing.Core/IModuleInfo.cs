@@ -2,7 +2,7 @@
 
 namespace Structing.Core
 {
-    public interface IModuleInfo: IReadOnlyDictionary<string, object>
+    public interface IModuleInfo : IReadOnlyDictionary<string, object>
     {
     }
 }

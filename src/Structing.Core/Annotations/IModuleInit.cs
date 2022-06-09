@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Structing.Core;
 using System.Threading.Tasks;
-using Structing.Core;
 
 namespace Structing.Annotations
 {

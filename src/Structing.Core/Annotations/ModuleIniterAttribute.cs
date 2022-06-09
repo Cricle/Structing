@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using Structing.Core.Annotations;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Structing.Core;
-using System.Linq;
-using Microsoft.Extensions.DependencyInjection;
-using System.Reflection;
+using Structing.Core.Annotations;
+using System;
 using System.Diagnostics;
+using System.Linq;
+using System.Reflection;
+using System.Threading.Tasks;
 
 namespace Structing.Annotations
 {
@@ -18,11 +16,20 @@ namespace Structing.Annotations
 
         public override Task ReadyAsync(IReadyContext context, Type targetType)
         {
+#if NETSTANDARD1_0
+            var typeInfo = targetType.GetTypeInfo();
+            if (!typeInfo.ImplementedInterfaces.Any(x => x == typeof(IModuleInit)) ||
+                !typeInfo.IsClass || typeInfo.IsAbstract)
+            {
+                throw new InvalidOperationException($"Type {targetType.FullName} must implement {InterfaceName} and must class, not abstract!");
+            }
+#else
             if (targetType.GetInterface(InterfaceName) == null ||
                 !targetType.IsClass || targetType.IsAbstract)
             {
                 throw new InvalidOperationException($"Type {targetType.FullName} must implement {InterfaceName} and must class, not abstract!");
             }
+#endif
             var val = CreateModuleInit(context, targetType);
             if (val is null)
             {
@@ -32,13 +39,13 @@ namespace Structing.Annotations
         }
         protected internal virtual IModuleInit CreateModuleInit(IReadyContext context, Type targetType)
         {
-            var emptyArgConst = targetType.GetConstructor(Type.EmptyTypes);
-            if (emptyArgConst != null&& emptyArgConst.IsPublic)
+            var emptyArgConst = targetType.GetTypeInfo().DeclaredConstructors.FirstOrDefault(x => x.IsPublic && x.GetParameters().Length == 0);
+            if (emptyArgConst != null && emptyArgConst.IsPublic)
             {
                 return (IModuleInit)CreateInstance(targetType, emptyArgConst, ArrayHelper<object>.Empty());
             }
             var scopeFactory = context.Provider.GetService<IServiceScopeFactory>();
-            var typeConsts = targetType.GetConstructors().Where(x=>x.IsPublic);
+            var typeConsts = targetType.GetTypeInfo().DeclaredConstructors.Where(x => x.IsPublic);
             var selected = typeConsts.FirstOrDefault(x => x.GetCustomAttribute<ModuleInitConstructorAttribute>() != null);
             if (selected != null)
             {

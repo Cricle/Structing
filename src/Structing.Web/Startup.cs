@@ -1,14 +1,9 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.FileProviders;
 using Structing.Core;
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Structing.Web
@@ -30,14 +25,14 @@ namespace Structing.Web
             Configure(ctx);
             Module.ReadyRegister(ctx);
             Module.Register(ctx);
-            OnConfigureServices(services,ctx);
+            OnConfigureServices(services, ctx);
         }
 
         protected virtual void Configure(RegisteContext ctx)
         {
 
         }
-        protected virtual void OnConfigureServices(IServiceCollection services,RegisteContext ctx)
+        protected virtual void OnConfigureServices(IServiceCollection services, RegisteContext ctx)
         {
 
         }

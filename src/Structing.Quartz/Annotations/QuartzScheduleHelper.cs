@@ -19,7 +19,7 @@ namespace Structing.Quartz.Annotations
             bool createFromProvider,
             bool skipWhenExits,
             bool replace)
-        {            
+        {
             if (jobConfigerType.GetInterface(IJobConfigerTypeName) == null)
             {
                 throw new ArgumentException($"Type {jobConfigerType} does't implement {IJobConfigerTypeName}");
@@ -51,10 +51,10 @@ namespace Structing.Quartz.Annotations
                     Scheduler = scheduler,
                     Configer = configer
                 };
-                await ScheduleJobsAsync(ctx,skipWhenExits,replace);
+                await ScheduleJobsAsync(ctx, skipWhenExits, replace);
             }
         }
-        private static async Task ScheduleJobsAsync(ScheduleJobContext context,bool skipWhenExits,bool replace)
+        private static async Task ScheduleJobsAsync(ScheduleJobContext context, bool skipWhenExits, bool replace)
         {
             var jobKeyBuilder = JobBuilder.Create(context.JobType);
             context.JobBuilder = jobKeyBuilder;

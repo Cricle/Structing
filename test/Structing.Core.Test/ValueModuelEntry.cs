@@ -12,7 +12,7 @@ namespace Structing.Core.Test
 #if NET5_0
             return Task.CompletedTask;
 #else
-                return Task.FromResult(0);
+            return Task.FromResult(0);
 #endif
         }
         public bool IsAfterReadyAsync { get; set; }

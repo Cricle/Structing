@@ -75,7 +75,7 @@ namespace Structing.Quartz
         }
         protected virtual Task<ConfigResults> EndConfigTriggerAsync(IJobTriggerScheduleJobContext context, IQuartzSchedule schedule)
         {
-            var startAt = GetStartAt(context,schedule);
+            var startAt = GetStartAt(context, schedule);
             if (startAt != null)
             {
                 context.TriggerBuilder.StartAt(startAt.Value);

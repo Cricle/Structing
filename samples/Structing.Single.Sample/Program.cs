@@ -9,7 +9,7 @@ namespace Structing.Single.Sample
         {
             var provider = ModuleHelper.RunAssemblyAsync().GetAwaiter().GetResult();
 
-            var ser=provider.GetRequiredService<SayHelloService>();
+            var ser = provider.GetRequiredService<SayHelloService>();
             ser.SayHello();
 
             Console.WriteLine(provider.GetRequiredService<ValueService>().Value);

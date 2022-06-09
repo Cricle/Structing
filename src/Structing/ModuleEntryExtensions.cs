@@ -1,11 +1,10 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Structing.Core;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Structing.Core;
-using Structing.Core.Annotations;
-using Microsoft.Extensions.Configuration;
-using System;
 
 namespace Structing
 {
@@ -67,7 +66,7 @@ namespace Structing
 
             return RunAsync(new IModuleEntry[] { modules }, services, configuration, feature);
         }
-        class ModuleEntryRunResult : IModuleEntryRunResult,IServiceProvider
+        class ModuleEntryRunResult : IModuleEntryRunResult, IServiceProvider
         {
             public IEnumerable<IModuleEntry> ModuleEntries { get; set; }
 

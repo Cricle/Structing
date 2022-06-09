@@ -1,9 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Quartz;
-using Structing;
 using Structing.Annotations;
-using Structing.Quartz;
 using Structing.Quartz.Annotations;
 using System;
 using System.Threading.Tasks;

@@ -26,7 +26,7 @@ namespace Structing.Outsize
         }
         public static IEnumerable<string> SearchDeps(string dirPath, SearchOption option)
         {
-            return Directory.GetFiles(dirPath,"*." + DependencyExtensionsName, option);
+            return Directory.GetFiles(dirPath, "*." + DependencyExtensionsName, option);
         }
     }
 }

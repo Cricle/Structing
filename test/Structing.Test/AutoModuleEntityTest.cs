@@ -2,11 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NullModule;
 using Structing.Core;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Structing.Test
@@ -26,8 +22,8 @@ namespace Structing.Test
         [DataRow(false)]
         public async Task AutoModule(bool parallel)
         {
-            var moduel = new ValueAutoModuleEntity { Parallel= parallel };
-            var info=moduel.GetModuleInfo(null);
+            var moduel = new ValueAutoModuleEntity { Parallel = parallel };
+            var info = moduel.GetModuleInfo(null);
             Assert.IsNotNull(info);
 
             var services = new ServiceCollection();

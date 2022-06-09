@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Reflection;
-using Structing.Core;
-using Structing.Core.Annotations;
 
-namespace Structing
+namespace Structing.Core
 {
     public class ModuleInfo : Dictionary<string, object>, IModuleInfo
     {
@@ -21,7 +19,7 @@ namespace Structing
             {
                 [ModuleInfoConst.NameKey] = assemblyName.Name,
                 [ModuleInfoConst.VersionKey] = assemblyName.Version,
-                [ModuleInfoConst.CultureKey] = assemblyName.CultureInfo
+                [ModuleInfoConst.CultureKey] = new CultureInfo(assemblyName.CultureName)
             };
         }
     }

@@ -1,9 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using Structing.Core.Annotations;
 using Structing.Core;
+using Structing.Core.Annotations;
+using System;
 
 namespace Structing.Annotations
 {
@@ -13,7 +11,7 @@ namespace Structing.Annotations
         public Type ImplementType { get; set; }
 
         public Type ServiceType { get; set; }
-        
+
         public ServiceLifetime ServiceLifetime { get; set; }
 
         public override void Register(IRegisteContext context, Type type)

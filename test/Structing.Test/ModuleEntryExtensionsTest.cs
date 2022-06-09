@@ -1,13 +1,11 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Structing.Core;
+using Structing.Core.Test;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Structing.Core.Test;
-using Microsoft.Extensions.Configuration;
 
 namespace Structing.Test
 {
@@ -58,8 +56,8 @@ namespace Structing.Test
 
             await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => ModuleEntryExtensions.RunAsync((IEnumerable<IModuleEntry>)null));
             await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => ModuleEntryExtensions.RunAsync((IModuleEntry)null));
-            await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => ModuleEntryExtensions.RunReadyAsync(null,rdCtx));
-            await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => ModuleEntryExtensions.RunReadyAsync(mdRd,null));
+            await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => ModuleEntryExtensions.RunReadyAsync(null, rdCtx));
+            await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => ModuleEntryExtensions.RunReadyAsync(mdRd, null));
             Assert.ThrowsException<ArgumentNullException>(() => ModuleEntryExtensions.RunRegister(null, new ServiceCollection()));
             Assert.ThrowsException<ArgumentNullException>(() => ModuleEntryExtensions.RunRegister(null, rsCtx));
             Assert.ThrowsException<ArgumentNullException>(() => ModuleEntryExtensions.RunRegister(moduleRegister, (ServiceCollection)null));
@@ -84,7 +82,7 @@ namespace Structing.Test
         {
             var rgs = new ValueModuleRegister();
             var ctx = new RegisteContext(new ServiceCollection());
-            ModuleEntryExtensions.RunRegister(rgs,ctx);
+            ModuleEntryExtensions.RunRegister(rgs, ctx);
             Assert.IsTrue(rgs.IsReadyRegister);
             Assert.IsTrue(rgs.IsRegister);
 
@@ -161,7 +159,7 @@ namespace Structing.Test
             {
                 entries.Add(new ValueModuelEntry());
             }
-            await ModuleEntryExtensions.RunAsync(entries, services,new ConfigurationRoot(new List<IConfigurationProvider>()));
+            await ModuleEntryExtensions.RunAsync(entries, services, new ConfigurationRoot(new List<IConfigurationProvider>()));
             Check(entries);
         }
     }
