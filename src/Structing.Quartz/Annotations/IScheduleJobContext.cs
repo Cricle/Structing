@@ -8,7 +8,7 @@ namespace Structing.Quartz.Annotations
     {
         Type JobType { get; }
 
-        IReadyContext ReadyContext { get; }
+        IServiceProvider ServiceProvider { get; }
 
         Type TargetType { get; }
 

@@ -23,11 +23,14 @@ namespace Structing.Quartz.Annotations
 
         public override Task ReadyAsync(IReadyContext context, Type targetType)
         {
-            return QuartzScheduleHelper.ScheduleAsync(context,
-                JobType, targetType,
-                CreateFromProvider,
-                SkipWhenExists,
-                Replace);
+            return QuartzScheduleHelper.ScheduleAsync(context.Provider,
+                new FromServiceQuartzScheduleArgs
+                {
+                    JobType = JobType,
+                    JobConfigerType = targetType,
+                    Replace = Replace,
+                    SkipWhenExists = SkipWhenExists
+                });
         }
     }
 }
