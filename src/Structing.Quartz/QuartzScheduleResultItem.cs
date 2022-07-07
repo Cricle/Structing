@@ -2,9 +2,9 @@
 using System;
 using System.Collections.Generic;
 
-namespace Structing.Quartz.Annotations
+namespace Structing.Quartz
 {
-    internal class QuartzScheduleResultItem: IQuartzScheduleResultItem
+    internal class QuartzScheduleResultItem : IQuartzScheduleResultItem
     {
         public JobKey JobKey { get; set; }
 

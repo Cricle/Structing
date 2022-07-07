@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Structing.Quartz.Annotations
+namespace Structing.Quartz
 {
     public interface IQuartzScheduleResultItem
     {

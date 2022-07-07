@@ -1,9 +1,10 @@
 ﻿using Quartz;
+using Structing.Quartz.Annotations;
 using System.Collections.Generic;
 
-namespace Structing.Quartz.Annotations
+namespace Structing.Quartz
 {
-    internal class QuartzScheduleResult: IQuartzScheduleResult
+    internal class QuartzScheduleResult : IQuartzScheduleResult
     {
         public ISchedulerFactory SchedulerFactory { get; set; }
 

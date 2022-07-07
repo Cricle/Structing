@@ -1,13 +1,14 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Quartz;
 using Structing.Core;
+using Structing.Quartz.Annotations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace Structing.Quartz.Annotations
+namespace Structing.Quartz
 {
     public static class QuartzScheduleHelper
     {
@@ -132,7 +133,7 @@ namespace Structing.Quartz.Annotations
                         item.TriggerKeys = triggers.Select(x => x.Key).ToList();
                         await context.Scheduler.ScheduleJob(jobKey, triggers, replace);
                     }
-                    
+
                     context.Trigger = triggerKey;
                     context.NextTriggerTime = next;
                     await context.Configer.ComplatedAsync(context);
