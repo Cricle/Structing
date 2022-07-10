@@ -16,53 +16,57 @@ namespace Structing.Quartz
 
         public override void Schedule(IJobTriggerScheduleJobContext context, in TriggerBuilderBox builderBox)
         {
-            if (Interval.Ticks == 0)
-            {
-                throw new ArgumentException("Interval must not 0");
-            }
             With(builderBox.Builder);
-            builderBox.Builder.WithSimpleSchedule((x =>
+            if (!RepeatForever && RepeatCount == 1)
             {
-                x.WithInterval(Interval);
-                if (RepeatForever)
+                var startAt = StartAt ?? DateTime.Now;
+                builderBox.Builder.StartAt(startAt.Add(Interval));
+            }
+            else
+            {
+                builderBox.Builder.WithSimpleSchedule((x =>
                 {
-                    x.RepeatForever();
-                }
-                else
-                {
-                    if (RepeatCount <= 0)
+                    x.WithInterval(Interval);
+                    if (RepeatForever)
                     {
-                        throw new ArgumentException("WithRepeatCount must more than 0");
+                        x.RepeatForever();
                     }
-                    x.WithRepeatCount(RepeatCount);
-                }
-                if (MisfireHandling != null)
-                {
-                    switch (MisfireHandling.Value)
+                    else
                     {
-                        case Quartz.QuartzSimpleMisfireHandlingTypes.IgnoreMisfires:
-                            x.WithMisfireHandlingInstructionIgnoreMisfires();
-                            break;
-                        case Quartz.QuartzSimpleMisfireHandlingTypes.FireNow:
-                            x.WithMisfireHandlingInstructionFireNow();
-                            break;
-                        case Quartz.QuartzSimpleMisfireHandlingTypes.NowWithExistingCount:
-                            x.WithMisfireHandlingInstructionNowWithExistingCount();
-                            break;
-                        case Quartz.QuartzSimpleMisfireHandlingTypes.NowWithRemainingCount:
-                            x.WithMisfireHandlingInstructionNowWithRemainingCount();
-                            break;
-                        case Quartz.QuartzSimpleMisfireHandlingTypes.NextWithRemainingCount:
-                            x.WithMisfireHandlingInstructionNextWithRemainingCount();
-                            break;
-                        case Quartz.QuartzSimpleMisfireHandlingTypes.NextWithExistingCount:
-                            x.WithMisfireHandlingInstructionNextWithExistingCount();
-                            break;
-                        default:
-                            break;
+                        if (RepeatCount <= 0)
+                        {
+                            throw new ArgumentException("WithRepeatCount must more than 0");
+                        }
+                        x.WithRepeatCount(RepeatCount);
                     }
-                }
-            }));
+                    if (MisfireHandling != null)
+                    {
+                        switch (MisfireHandling.Value)
+                        {
+                            case Quartz.QuartzSimpleMisfireHandlingTypes.IgnoreMisfires:
+                                x.WithMisfireHandlingInstructionIgnoreMisfires();
+                                break;
+                            case Quartz.QuartzSimpleMisfireHandlingTypes.FireNow:
+                                x.WithMisfireHandlingInstructionFireNow();
+                                break;
+                            case Quartz.QuartzSimpleMisfireHandlingTypes.NowWithExistingCount:
+                                x.WithMisfireHandlingInstructionNowWithExistingCount();
+                                break;
+                            case Quartz.QuartzSimpleMisfireHandlingTypes.NowWithRemainingCount:
+                                x.WithMisfireHandlingInstructionNowWithRemainingCount();
+                                break;
+                            case Quartz.QuartzSimpleMisfireHandlingTypes.NextWithRemainingCount:
+                                x.WithMisfireHandlingInstructionNextWithRemainingCount();
+                                break;
+                            case Quartz.QuartzSimpleMisfireHandlingTypes.NextWithExistingCount:
+                                x.WithMisfireHandlingInstructionNextWithExistingCount();
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }));
+            }
         }
     }
 }

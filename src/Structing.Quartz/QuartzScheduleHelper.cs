@@ -39,7 +39,7 @@ namespace Structing.Quartz
             var schedulerFactory = provider.GetRequiredService<ISchedulerFactory>();
             var scheduler = await schedulerFactory.GetScheduler();
             var configType = jobConfiger.GetType();
-            var inputArgs = configType.GetCustomAttribute<ConfigJobArgumentsAttribute>()?.Args ?? emptyArgs;
+            var inputArgs = configType.GetCustomAttribute<ConfigJobArgumentsAttribute>()?.Args;
             if (args.ConfigJobArgs != null)
             {
                 if (args.MergeArgs)
@@ -57,6 +57,10 @@ namespace Structing.Quartz
                 {
                     inputArgs = args.ConfigJobArgs;
                 }
+            }
+            else
+            {
+                inputArgs = inputArgs ?? emptyArgs;
             }
             var items = new List<IQuartzScheduleResultItem>(inputArgs.Length);
             var result = new QuartzScheduleResult
