@@ -5,6 +5,7 @@ using Structing.Idempotent.Services;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -59,16 +60,22 @@ namespace Structing.Idempotent.Interceptors
 
             public TimeSpan? ResultCacheTime { get; set; }
 
+            public int[] UsedArgIndexs { get; set; }
+
             public bool Skip { get; set; }
         }
 
         private static readonly Dictionary<InvocationEntity, InvocationValues> invocationValueMap = new Dictionary<InvocationEntity, InvocationValues>();
 
-        public IIdempotentService AntiReentryService { get; }
+        public IIdempotentKeyGenerator IdempotentKeyGenerator { get; }
 
-        public IdempotentInterceptor(IIdempotentService antiReentryService)
+        public IIdempotentService IdempotentService { get; }
+
+        public IdempotentInterceptor(IIdempotentService idempotentService,
+            IIdempotentKeyGenerator idempotentKeyGenerator)
         {
-            AntiReentryService = antiReentryService;
+            IdempotentService = idempotentService ?? throw new ArgumentNullException(nameof(idempotentService));
+            IdempotentKeyGenerator = idempotentKeyGenerator ?? throw new ArgumentNullException(nameof(idempotentKeyGenerator));
         }
 
         protected override Task InterceptAsync(IInvocation invocation, IInvocationProceedInfo proceedInfo, Func<IInvocation, IInvocationProceedInfo, Task> proceed)
@@ -91,11 +98,21 @@ namespace Structing.Idempotent.Interceptors
                 {
                     var header = TypeNameHelper.GetFriendlyFullName(invocation.TargetType) + "." + invocation.Method.Name;
                     var resultCacheTime = indemAttr.ResultCacheForever ? null : (TimeSpan?)indemAttr.ResultCacheTime;
+                    var pars = invocation.Method.GetParameters();
+                    var useIndexs = new List<int>(pars.Length);
+                    for (int i = 0; i < pars.Length; i++)
+                    {
+                        if (pars[i].GetCustomAttribute<SkipKeyPartAttribute>() == null)
+                        {
+                            useIndexs.Add(i);
+                        }
+                    }
                     values = new InvocationValues
                     {
                         HeaderKey = header,
                         IdempotentAttribute = indemAttr,
-                        ResultCacheTime = resultCacheTime
+                        ResultCacheTime = resultCacheTime,
+                        UsedArgIndexs = useIndexs.ToArray()
                     };
                     invocationValueMap[entity] = values;
                 }
@@ -104,8 +121,13 @@ namespace Structing.Idempotent.Interceptors
             {
                 return await proceed(invocation, proceedInfo);
             }
-            var key = KeyGenerator.Concat(values.HeaderKey, invocation.Arguments);
-            using (var tk = await AntiReentryService.AntiReentryAsync<TResult>(key, Consts.DefaultLockExpireTime, values.ResultCacheTime))
+            var args = new object[values.UsedArgIndexs.Length];
+            for (int i = 0; i < values.UsedArgIndexs.Length; i++)
+            {
+                args[i] = invocation.Arguments[i];
+            }
+            var key = IdempotentKeyGenerator.GetKey(values.HeaderKey, args);
+            using (var tk = await IdempotentService.AntiReentryAsync<TResult>(key, Consts.DefaultLockExpireTime, values.ResultCacheTime))
             {
                 if (tk.HasResult)
                 {

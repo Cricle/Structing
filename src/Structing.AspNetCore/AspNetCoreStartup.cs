@@ -48,7 +48,7 @@ namespace Structing.AspNetCore
 
         protected virtual IMvcBuilder AddMvc(RegisteContext ctx)
         {
-            return ctx.Services.AddMvc();
+            return ctx.Services.AddControllers();
         }
     }
 }
