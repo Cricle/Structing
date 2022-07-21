@@ -14,20 +14,20 @@ namespace Structing.Idempotent.Services
             this.lockerFactory = lockerFactory;
             this.cacheVisitor = cacheVisitor;
         }
-        public Task<IdempotentToken<T>> AntiReentryAsync<T>(string resourceKey)
+        public Task<IdempotentToken<T>> IdempotentAsync<T>(string resourceKey)
         {
-            return AntiReentryAsync<T>(resourceKey, Consts.DefaultLockExpireTime, Consts.DefaultRequestTime, CacheSetIf.NotExists);
+            return IdempotentAsync<T>(resourceKey, Consts.DefaultLockExpireTime, Consts.DefaultRequestTime, CacheSetIf.NotExists);
         }
-        public Task<IdempotentToken<T>> AntiReentryAsync<T>(string resourceKey, TimeSpan keyExpireTime)
+        public Task<IdempotentToken<T>> IdempotentAsync<T>(string resourceKey, TimeSpan keyExpireTime)
         {
-            return AntiReentryAsync<T>(resourceKey, keyExpireTime, Consts.DefaultRequestTime, CacheSetIf.NotExists);
+            return IdempotentAsync<T>(resourceKey, keyExpireTime, Consts.DefaultRequestTime, CacheSetIf.NotExists);
         }
 
-        public Task<IdempotentToken<T>> AntiReentryAsync<T>(string resourceKey, TimeSpan keyExpireTime, TimeSpan? resultCacheTime)
+        public Task<IdempotentToken<T>> IdempotentAsync<T>(string resourceKey, TimeSpan keyExpireTime, TimeSpan? resultCacheTime)
         {
-            return AntiReentryAsync<T>(resourceKey, keyExpireTime, resultCacheTime, CacheSetIf.NotExists);
+            return IdempotentAsync<T>(resourceKey, keyExpireTime, resultCacheTime, CacheSetIf.NotExists);
         }
-        public async Task<IdempotentToken<T>> AntiReentryAsync<T>(string resourceKey, TimeSpan keyExpireTime, TimeSpan? resultCacheTime, CacheSetIf cacheSetIf)
+        public async Task<IdempotentToken<T>> IdempotentAsync<T>(string resourceKey, TimeSpan keyExpireTime, TimeSpan? resultCacheTime, CacheSetIf cacheSetIf)
         {
             var resCache = await cacheVisitor.GetAsync<T>(resourceKey);
             if (resCache != null)

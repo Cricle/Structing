@@ -9,10 +9,7 @@
   <ItemGroup>
     <PackageReference Include="Castle.Core.AsyncInterceptor" Version="2.1.0" />
     <PackageReference Include="SecurityLogin" Version="1.1.7-preview.3" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Structing.Core\Structing.Core.csproj" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
   </ItemGroup>
 
 

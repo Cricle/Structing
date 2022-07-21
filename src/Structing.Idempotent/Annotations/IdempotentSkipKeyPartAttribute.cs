@@ -5,7 +5,7 @@ using System.Text;
 namespace Structing.Idempotent.Annotations
 {
     [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false, Inherited = false)]
-    public sealed class SkipKeyPartAttribute : Attribute
+    public sealed class IdempotentSkipKeyPartAttribute : Attribute
     {
     }
 }
