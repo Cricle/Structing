@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using SecurityLogin;
 using Structing.Idempotent.Annotations;
+using Structing.Idempotent.Models;
 using Structing.Idempotent.Services;
 using System;
 using System.Collections.Generic;
@@ -62,29 +63,52 @@ namespace Structing.Idempotent.Interceptors
                         HeaderKey = header,
                         IdempotentAttribute = indemAttr,
                         ResultCacheTime = resultCacheTime,
-                        UsedArgIndexs = useIndexs.ToArray()
+                        UsedArgIndexs = useIndexs.ToArray(),
+                        FullArgs = useIndexs.Count == pars.Length
                     };
                     invocationValueMap[entity] = values;
                 }
             }
             if (values.Skip)
             {
-                return await proceed(invocation, proceedInfo);
+                var res = await proceed(invocation, proceedInfo);
+                if (res is IdempotentBase idem)
+                {
+                    idem.Skip = true;
+                    idem.Args = invocation.Arguments;
+                }
+                return res;
             }
-            var args = new object[values.UsedArgIndexs.Length];
-            for (int i = 0; i < values.UsedArgIndexs.Length; i++)
+            var args = invocation.Arguments;
+            if (!values.FullArgs)
             {
-                args[i] = invocation.Arguments[i];
+                args = new object[values.UsedArgIndexs.Length];
+                for (int i = 0; i < values.UsedArgIndexs.Length; i++)
+                {
+                    args[i] = invocation.Arguments[i];
+                }
             }
             var key = IdempotentKeyGenerator.GetKey(values.HeaderKey, args);
             using (var tk = await IdempotentService.IdempotentAsync<TResult>(key, Consts.DefaultLockExpireTime, values.ResultCacheTime))
             {
                 if (tk.HasResult)
                 {
+                    if (tk.Result is IdempotentBase idem)
+                    {
+                        idem.Args = args;
+                        idem.Status = IdempotentStatus.IdempotentHit;
+                        idem.CacheKey = key;
+                    }
                     return tk.Result;
                 }
 
                 var result = await proceed(invocation, proceedInfo);
+                if (result is IdempotentBase ridem)
+                {
+                    ridem.Args = args;
+                    ridem.Status = IdempotentStatus.MethodHit;
+                    ridem.CacheKey = key;
+                }
                 await tk.SetAsync(result);
                 return result;
             }

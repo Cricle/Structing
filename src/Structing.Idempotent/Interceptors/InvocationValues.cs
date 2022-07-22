@@ -14,5 +14,7 @@ namespace Structing.Idempotent.Interceptors
         public int[] UsedArgIndexs { get; set; }
 
         public bool Skip { get; set; }
+
+        public bool FullArgs { get; set; }
     }
 }
