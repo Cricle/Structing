@@ -85,7 +85,7 @@ namespace Structing.Idempotent.Interceptors
                 args = new object[values.UsedArgIndexs.Length];
                 for (int i = 0; i < values.UsedArgIndexs.Length; i++)
                 {
-                    args[i] = invocation.Arguments[i];
+                    args[i] = invocation.Arguments[values.UsedArgIndexs[i]];
                 }
             }
             var key = IdempotentKeyGenerator.GetKey(values.HeaderKey, args);
