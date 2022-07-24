@@ -74,8 +74,7 @@ namespace Structing.Idempotent.Interceptors
                 var res = await proceed(invocation, proceedInfo);
                 if (res is IdempotentBase idem)
                 {
-                    idem.Skip = true;
-                    idem.Args = invocation.Arguments;
+                    idem.Status = IdempotentStatus.Skip;
                 }
                 return res;
             }
@@ -95,9 +94,7 @@ namespace Structing.Idempotent.Interceptors
                 {
                     if (tk.Result is IdempotentBase idem)
                     {
-                        idem.Args = args;
                         idem.Status = IdempotentStatus.IdempotentHit;
-                        idem.CacheKey = key;
                     }
                     return tk.Result;
                 }
@@ -105,9 +102,7 @@ namespace Structing.Idempotent.Interceptors
                 var result = await proceed(invocation, proceedInfo);
                 if (result is IdempotentBase ridem)
                 {
-                    ridem.Args = args;
                     ridem.Status = IdempotentStatus.MethodHit;
-                    ridem.CacheKey = key;
                 }
                 await tk.SetAsync(result);
                 return result;
