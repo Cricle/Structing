@@ -2,7 +2,7 @@
 	<Import Project="..\..\eng\nuget.props" />
 
 	<PropertyGroup>
-		<TargetFrameworks>netcoreapp2.1;netcoreapp3.1</TargetFrameworks>
+		<TargetFrameworks>netcoreapp3.1</TargetFrameworks>
 		<NoWarn>NETSDK1138</NoWarn>
 	</PropertyGroup>
 
