@@ -5,6 +5,7 @@ using System.Collections;
 
 namespace Structing.DryInterceptor.Annotations
 {
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
     public class InterceptAttribute : ServiceRegisterAttribute
     {
         public InterceptAttribute()
