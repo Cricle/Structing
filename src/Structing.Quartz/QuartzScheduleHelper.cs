@@ -16,7 +16,11 @@ namespace Structing.Quartz
 
         public static Task<IQuartzScheduleResult> ScheduleAsync(IServiceProvider provider, FromServiceQuartzScheduleArgs args)
         {
-            var inst = (IJobConfiger)provider.GetRequiredService(args.JobConfigerType);
+            var inst = (IJobConfiger)provider.GetService(args.JobConfigerType);
+            if (inst == null)
+            {
+                inst = (IJobConfiger)Activator.CreateInstance(args.JobConfigerType);
+            }
             return ScheduleAsync(provider, inst, args);
         }
 
