@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Structing.Core;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -45,7 +46,7 @@ namespace Structing.AspNetCore
             ctx.Features.Add(FeatureExtensions.ApplicationPartManagerKey, partMgr);
             Configure(ctx);
             ReadyAsync(ctx).GetAwaiter().GetResult();
-            var lifetime = app.ApplicationServices.GetRequiredService<IApplicationLifetime>();
+            var lifetime = app.ApplicationServices.GetRequiredService<IHostApplicationLifetime>();
             lifetime.ApplicationStarted.Register(() => Module.StartAsync(app.ApplicationServices).GetAwaiter().GetResult());
             lifetime.ApplicationStopping.Register(() => Module.StopAsync(app.ApplicationServices).GetAwaiter().GetResult());
             OnConfigure(app, ctx);

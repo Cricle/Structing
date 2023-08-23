@@ -32,6 +32,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "eng", "eng", "{A3896651-2C9
 		eng\nuget.props = eng\nuget.props
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Structing.CodeGen", "src\Structing.CodeGen\Structing.CodeGen.csproj", "{DB975D9B-C3E6-4ECC-8369-91497046FE01}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -162,6 +164,18 @@ Global
 		{A930D230-6E28-411E-A0F9-4BCDD3ACBB86}.Release|x64.Build.0 = Release|Any CPU
 		{A930D230-6E28-411E-A0F9-4BCDD3ACBB86}.Release|x86.ActiveCfg = Release|Any CPU
 		{A930D230-6E28-411E-A0F9-4BCDD3ACBB86}.Release|x86.Build.0 = Release|Any CPU
+		{DB975D9B-C3E6-4ECC-8369-91497046FE01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB975D9B-C3E6-4ECC-8369-91497046FE01}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB975D9B-C3E6-4ECC-8369-91497046FE01}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{DB975D9B-C3E6-4ECC-8369-91497046FE01}.Debug|x64.Build.0 = Debug|Any CPU
+		{DB975D9B-C3E6-4ECC-8369-91497046FE01}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{DB975D9B-C3E6-4ECC-8369-91497046FE01}.Debug|x86.Build.0 = Debug|Any CPU
+		{DB975D9B-C3E6-4ECC-8369-91497046FE01}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB975D9B-C3E6-4ECC-8369-91497046FE01}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB975D9B-C3E6-4ECC-8369-91497046FE01}.Release|x64.ActiveCfg = Release|Any CPU
+		{DB975D9B-C3E6-4ECC-8369-91497046FE01}.Release|x64.Build.0 = Release|Any CPU
+		{DB975D9B-C3E6-4ECC-8369-91497046FE01}.Release|x86.ActiveCfg = Release|Any CPU
+		{DB975D9B-C3E6-4ECC-8369-91497046FE01}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

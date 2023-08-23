@@ -3,9 +3,13 @@ using System.Collections;
 
 namespace Structing.Core
 {
-    public interface IRegisteContext
+    public interface IFeatureContext
+    {
+        IDictionary Features { get; }
+    }
+
+    public interface IRegisteContext: IFeatureContext
     {
         IServiceCollection Services { get; }
-        IDictionary Features { get; }
     }
 }

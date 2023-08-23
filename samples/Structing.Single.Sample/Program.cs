@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Structing.Core;
+using Structing.Core.Annotations;
 using System;
 using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
@@ -16,5 +18,10 @@ namespace Structing.Single.Sample
 
             Console.WriteLine(provider.GetRequiredService<ValueService>().Value);
         }
+    }
+    [Feature("struct.feature1")]
+    public class SomeFeature
+    {
+        public int A { get; set; }
     }
 }

@@ -16,20 +16,11 @@ namespace Structing.Annotations
 
         public override Task ReadyAsync(IReadyContext context, Type targetType)
         {
-#if NETSTANDARD1_0
-            var typeInfo = targetType.GetTypeInfo();
-            if (!typeInfo.ImplementedInterfaces.Any(x => x == typeof(IModuleInit)) ||
-                !typeInfo.IsClass || typeInfo.IsAbstract)
-            {
-                throw new InvalidOperationException($"Type {targetType.FullName} must implement {InterfaceName} and must class, not abstract!");
-            }
-#else
             if (targetType.GetInterface(InterfaceName) == null ||
                 !targetType.IsClass || targetType.IsAbstract)
             {
                 throw new InvalidOperationException($"Type {targetType.FullName} must implement {InterfaceName} and must class, not abstract!");
             }
-#endif
             var val = CreateModuleInit(context, targetType);
             if (val is null)
             {
