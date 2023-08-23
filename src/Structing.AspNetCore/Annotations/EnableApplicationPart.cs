@@ -10,7 +10,7 @@ namespace Structing.AspNetCore.Annotations
     {
         public override void Register(IRegisteContext context, Type type)
         {
-            var mvcBuilder = context.Features.GetApplicationPartManager();
+            var mvcBuilder = context.GetApplicationPartManager();
             mvcBuilder.Add(type.Assembly);
         }
     }

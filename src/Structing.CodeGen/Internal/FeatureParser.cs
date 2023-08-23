@@ -60,26 +60,42 @@ namespace Structing.CodeGen.Internal
                 return $"(ushort){us}";
             return value.ToString();
         }
-        private readonly HashSet<string> keys = new HashSet<string>();
-
         public void Execute(SourceProductionContext context, GeneratorTransformResult<ISymbol?> node)
         {
+            var targetType = node.SyntaxContext.TargetSymbol;
+            if (node.Value != null)
+            {
+                var processingedEmpty = false;
+                var processedType = new HashSet<string>();
+                var attributes = targetType.GetAttributes().Where(x => x.AttributeClass?.ToString() == FeatureConsts.Name).ToList();
+                foreach (var attr in attributes)
+                {
+                    var attrType = (attr.NamedArguments.FirstOrDefault(x => x.Key == FeatureConsts.Type).Value.Value as INamedTypeSymbol)?.OriginalDefinition;
+                    targetType = attrType ?? targetType;
+                    if (targetType.IsStatic)
+                    {
+                        continue;//NOTE: Now is not support static class
+                    }
+                    var newNode = new GeneratorTransformResult<ISymbol>(targetType, node.SyntaxContext);
+                    if (attrType != null && processedType.Add(attrType.ToString()))
+                    {
+                        ExecuteOne(context, newNode, attr, attrType);
+                    }
+                    else if (!processingedEmpty)
+                    {
+                        processingedEmpty = true;
+                        ExecuteOne(context, newNode, attr, targetType!);
+                    }
+                }
+            }
+        }
+        private void ExecuteOne(SourceProductionContext context, GeneratorTransformResult<ISymbol> node, AttributeData data, ISymbol targetType)
+        {
             var typeSymbol = (INamedTypeSymbol)node.Value!;
-            var attr = typeSymbol.GetAttributes()
-                .First(x => x.AttributeClass?.ToString() == FeatureConsts.Name);
-            var constFirst = attr.ConstructorArguments[0];
+            var constFirst = data.ConstructorArguments[0];
             var val = ValueToCSharp(constFirst.Value, constFirst.Type);
-            var aliasType = attr.NamedArguments.FirstOrDefault(x => x.Key == FeatureConsts.Type).Value.Value as INamedTypeSymbol;
-            var extenName = attr.NamedArguments.FirstOrDefault(x => x.Key == FeatureConsts.ExtensionName).Value.Value?.ToString()?? "FeatureExtensions";
-            if (aliasType != null)
-            {
-                typeSymbol = aliasType;
-            }
+            var extenName = data.NamedArguments.FirstOrDefault(x => x.Key == FeatureConsts.ExtensionName).Value.Value?.ToString()?? "FeatureExtensions";
             var name = typeSymbol!.Name;
-            if (!keys.Add(name))
-            {
-                return;
-            }
             var visibility = node.GetAccessibilityString();
             var nameSpace = "namespace "+node.GetNameSpace()+"\n{";
             var endNameSpace = "}";

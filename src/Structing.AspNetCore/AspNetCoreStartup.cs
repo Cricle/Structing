@@ -27,17 +27,17 @@ namespace Structing.AspNetCore
             var builder = AddMvc(ctx);
             if (builder != null)
             {
-                ctx.Features.Add(MapExtensions.MvcBuilderKey, builder);
+                ctx.SetIMvcBuilder(builder);
             }
-            ctx.Features.Add(MapExtensions.ConfigurationKey, Context.Configuration);
-            ctx.Features.Add(FeatureExtensions.ServicePickerKey, picker);
+            ctx.SetIConfiguration(Context.Configuration);
+            ctx.SetIServicePicker(picker);
         }
         protected override void OnConfigureServices(IServiceCollection services, RegisteContext ctx)
         {
-            var mvc = ctx.Features.Get<IMvcBuilder>(MapExtensions.MvcBuilderKey);
+            var mvc = ctx.GetIMvcBuilder();
             if (mvc != null)
             {
-                var mgr = ctx.Features.GetApplicationPartManager();
+                var mgr = ctx.GetApplicationPartManager();
                 foreach (var item in mgr)
                 {
                     mvc.AddApplicationPart(item);

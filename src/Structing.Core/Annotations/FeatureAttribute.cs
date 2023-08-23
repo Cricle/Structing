@@ -11,7 +11,7 @@ namespace Structing.Core.Annotations
 
         public Type Type { get; set; }
     }
-    [AttributeUsage(AttributeTargets.Class| AttributeTargets.Assembly, AllowMultiple = false, Inherited = false)]
+    [AttributeUsage(AttributeTargets.Class| AttributeTargets.Assembly, AllowMultiple = true, Inherited = false)]
     public sealed class FeatureAttribute : Attribute
     {
         public FeatureAttribute(object Key)

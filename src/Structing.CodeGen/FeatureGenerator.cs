@@ -2,6 +2,7 @@
 using Structing.CodeGen.Internal;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 
 namespace Structing.CodeGen

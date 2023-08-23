@@ -10,6 +10,7 @@
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Structing.CodeGen\Structing.CodeGen.csproj"  OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
     <ProjectReference Include="..\Structing.Core\Structing.Core.csproj" />
   </ItemGroup>
 </Project>
