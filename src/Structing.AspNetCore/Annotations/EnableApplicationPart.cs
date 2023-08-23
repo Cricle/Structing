@@ -3,7 +3,7 @@ using Structing.Core.Annotations;
 using System;
 using System.Collections;
 
-namespace Structing.Web
+namespace Structing.AspNetCore.Annotations
 {
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
     public sealed class EnableApplicationPartAttribute : ServiceRegisterAttribute

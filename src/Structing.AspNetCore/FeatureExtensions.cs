@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Builder;
-using Structing.Web;
+using System;
+using System.Collections;
 
-namespace System.Collections
+namespace Structing.AspNetCore
 {
     public static class FeatureExtensions
     {
@@ -20,7 +21,7 @@ namespace System.Collections
         }
         public static T EnsureGet<T>(this IDictionary map, string key)
         {
-            var val = Get<T>(map, key);
+            var val = map.Get<T>(key);
             if (val == null)
             {
                 throw new ArgumentException($"Key {key} not found in map");
@@ -29,15 +30,15 @@ namespace System.Collections
         }
         public static IApplicationBuilder GetApplicationBuilder(this IDictionary ctx)
         {
-            return EnsureGet<IApplicationBuilder>(ctx, ApplicationBuilderKey);
+            return ctx.EnsureGet<IApplicationBuilder>(ApplicationBuilderKey);
         }
         public static IServicePicker GetServicePicker(this IDictionary ctx)
         {
-            return EnsureGet<IServicePicker>(ctx, ServicePickerKey);
+            return ctx.EnsureGet<IServicePicker>(ServicePickerKey);
         }
         public static ApplicationPartManager GetApplicationPartManager(this IDictionary ctx)
         {
-            return EnsureGet<ApplicationPartManager>(ctx, ApplicationPartManagerKey);
+            return ctx.EnsureGet<ApplicationPartManager>(ApplicationPartManagerKey);
         }
     }
 }

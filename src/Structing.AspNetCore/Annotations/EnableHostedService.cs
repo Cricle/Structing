@@ -5,7 +5,7 @@ using Structing.Core;
 using Structing.Core.Annotations;
 using System;
 
-namespace Structing.Web.Annotations
+namespace Structing.AspNetCore.Annotations
 {
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
     public sealed class EnableHostedServiceAttribute : ServiceRegisterAttribute

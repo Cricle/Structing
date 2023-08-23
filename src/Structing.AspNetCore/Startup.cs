@@ -2,11 +2,10 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Structing.Core;
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Structing.Web
+namespace Structing.AspNetCore
 {
     public class Startup
     {

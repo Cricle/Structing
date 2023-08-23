@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using Structing.AspNetCore;
 using Structing.Core;
-using Structing.Web;
-using System.Collections;
 
 namespace Structing.AspNetCore
 {

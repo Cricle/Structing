@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
 
-namespace Structing.Web
+namespace Structing.AspNetCore
 {
     public class ApplicationPartManager : List<Assembly>
     {

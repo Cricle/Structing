@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.FileProviders;
 
-namespace Structing.Web
+namespace Structing.AspNetCore
 {
     public interface IServicePicker
     {

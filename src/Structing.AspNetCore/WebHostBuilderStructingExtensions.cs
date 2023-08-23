@@ -1,7 +1,8 @@
-﻿using Structing.AspNetCore;
+﻿using Microsoft.AspNetCore.Hosting;
+using Structing.AspNetCore;
 using Structing.Core;
 
-namespace Microsoft.AspNetCore.Hosting
+namespace Structing.AspNetCore
 {
     public static class WebHostBuilderStructingExtensions
     {
