@@ -7,7 +7,7 @@ using System.Runtime.CompilerServices;
 
 namespace Structing.Single.Sample
 {
-    [Feature("struct.feature1",Type =typeof(SomeFeature))]
+    [Feature(A.Red,Type =typeof(SomeFeature))]
     class Program
     {
         static void Main(string[] args)
@@ -23,5 +23,9 @@ namespace Structing.Single.Sample
     public class SomeFeature
     {
         public int A { get; set; }
+    }
+    public enum A
+    {
+        Red
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.CodeAnalysis;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -8,16 +9,55 @@ namespace Structing.CodeGen.Internal
 {
     internal class FeatureParser
     {
-        private string ValueToCSharp(object? value)
+        private readonly Dictionary<ITypeSymbol, Dictionary<decimal, string>> enumMap = new Dictionary<ITypeSymbol, Dictionary<decimal, string>>(SymbolEqualityComparer.Default);
+
+        private string? ParseEnum(object value, ITypeSymbol typeSymbol)
+        {
+            Debug.Assert(typeSymbol.TypeKind == TypeKind.Enum);
+            var left = (decimal)Convert.ChangeType(value, typeof(decimal));
+            if (!enumMap.TryGetValue(typeSymbol, out var map))
+            {
+                map = typeSymbol.GetMembers().OfType<IFieldSymbol>().ToDictionary(x => (decimal)Convert.ChangeType(x.ConstantValue, typeof(decimal)), x => x.Name);
+                enumMap[typeSymbol] = map;
+            }
+            return map.TryGetValue(left, out var str) ? str : null;
+        }
+
+        private string ValueToCSharp(object? value,ITypeSymbol? typeSymbol)
         {
             if (value == null)
-            {
                 return "null";
+            if (typeSymbol!=null&&typeSymbol.TypeKind== TypeKind.Enum)
+            {
+                var res= ParseEnum(value, typeSymbol);
+                if (string.IsNullOrEmpty(res))
+                {
+                    return $"(global::{typeSymbol}){value}";
+                }
+                return $"global::{typeSymbol}.{res}";
             }
             if (value is string str)
-            {
                 return $"\"{str}\"";
-            }
+            if (value is bool b)
+                return b ? "true" : "false";
+            if (value is ulong ul)
+                return $"{ul}UL";
+            if (value is double d)
+                return $"{d}d";
+            if (value is float f)
+                return $"{f}f";
+            if (value is uint ui)
+                return $"{ui}u";
+            if (value is byte @byte)
+                return $"(byte){@byte}";
+            if (value is sbyte sb)
+                return $"(sbyte){sb}";
+            if (value is char c)
+                return $"(char){c}";
+            if (value is short s)
+                return $"(short){s}";
+            if (value is ushort us)
+                return $"(ushort){us}";
             return value.ToString();
         }
         private readonly HashSet<string> keys = new HashSet<string>();
@@ -27,7 +67,8 @@ namespace Structing.CodeGen.Internal
             var typeSymbol = (INamedTypeSymbol)node.Value!;
             var attr = typeSymbol.GetAttributes()
                 .First(x => x.AttributeClass?.ToString() == FeatureConsts.Name);
-            var val = ValueToCSharp(attr.ConstructorArguments[0].Value);
+            var constFirst = attr.ConstructorArguments[0];
+            var val = ValueToCSharp(constFirst.Value, constFirst.Type);
             var aliasType = attr.NamedArguments.FirstOrDefault(x => x.Key == FeatureConsts.Type).Value.Value as INamedTypeSymbol;
             var extenName = attr.NamedArguments.FirstOrDefault(x => x.Key == FeatureConsts.ExtensionName).Value.Value?.ToString()?? "FeatureExtensions";
             if (aliasType != null)

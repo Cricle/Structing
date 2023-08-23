@@ -14,7 +14,7 @@ namespace Structing.Core.Annotations
     [AttributeUsage(AttributeTargets.Class| AttributeTargets.Assembly, AllowMultiple = false, Inherited = false)]
     public sealed class FeatureAttribute : Attribute
     {
-        public FeatureAttribute(string Key)
+        public FeatureAttribute(object Key)
         {
             this.Key = Key ?? throw new ArgumentNullException(nameof(Key));
         }

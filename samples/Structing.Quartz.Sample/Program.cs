@@ -14,10 +14,7 @@ namespace Structing.Quartz.Sample
         {
             var services = new ServiceCollection();
             services.AddLogging(x => x.AddConsole());
-            services.AddQuartz(x =>
-            {
-                x.UseMicrosoftDependencyInjectionJobFactory();
-            });
+            services.AddQuartz();
             Run(services).GetAwaiter().GetResult();
         }
         private static async Task Run(IServiceCollection services)
