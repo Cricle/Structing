@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 
 namespace Structing.Single.Sample
 {
+    [Feature("struct.feature1",Type =typeof(SomeFeature))]
     class Program
     {
         static void Main(string[] args)
@@ -19,7 +20,6 @@ namespace Structing.Single.Sample
             Console.WriteLine(provider.GetRequiredService<ValueService>().Value);
         }
     }
-    [Feature("struct.feature1")]
     public class SomeFeature
     {
         public int A { get; set; }

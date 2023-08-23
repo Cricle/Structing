@@ -11,7 +11,7 @@ namespace Structing.Core.Annotations
 
         public Type Type { get; set; }
     }
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
+    [AttributeUsage(AttributeTargets.Class| AttributeTargets.Assembly, AllowMultiple = false, Inherited = false)]
     public sealed class FeatureAttribute : Attribute
     {
         public FeatureAttribute(string Key)
@@ -20,5 +20,9 @@ namespace Structing.Core.Annotations
         }
 
         public object Key { get; }
+
+        public Type Type { get; set; }
+
+        public string ExtensionName { get; set; }
     }
 }

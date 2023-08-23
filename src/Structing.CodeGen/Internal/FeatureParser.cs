@@ -1,4 +1,5 @@
 ﻿using Microsoft.CodeAnalysis;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
@@ -19,9 +20,25 @@ namespace Structing.CodeGen.Internal
             }
             return value.ToString();
         }
+        private readonly HashSet<string> keys = new HashSet<string>();
+
         public void Execute(SourceProductionContext context, GeneratorTransformResult<ISymbol?> node)
         {
             var typeSymbol = (INamedTypeSymbol)node.Value!;
+            var attr = typeSymbol.GetAttributes()
+                .First(x => x.AttributeClass?.ToString() == FeatureConsts.Name);
+            var val = ValueToCSharp(attr.ConstructorArguments[0].Value);
+            var aliasType = attr.NamedArguments.FirstOrDefault(x => x.Key == FeatureConsts.Type).Value.Value as INamedTypeSymbol;
+            var extenName = attr.NamedArguments.FirstOrDefault(x => x.Key == FeatureConsts.ExtensionName).Value.Value?.ToString()?? "FeatureExtensions";
+            if (aliasType != null)
+            {
+                typeSymbol = aliasType;
+            }
+            var name = typeSymbol!.Name;
+            if (!keys.Add(name))
+            {
+                return;
+            }
             var visibility = node.GetAccessibilityString();
             var nameSpace = "namespace "+node.GetNameSpace()+"\n{";
             var endNameSpace = "}";
@@ -30,17 +47,13 @@ namespace Structing.CodeGen.Internal
                 endNameSpace = string.Empty;
                 nameSpace = string.Empty;
             }
-            var name = typeSymbol!.Name;
             var type = "global::" + typeSymbol.ToString();
-            var attr = typeSymbol.GetAttributes()
-                .First(x => x.AttributeClass?.ToString() == FeatureConsts.Name);
-            var val = ValueToCSharp(attr.ConstructorArguments[0].Value);
             var code = $@"
 {nameSpace}
     {Consts.Generate}
     {Consts.CompilerGenerated}
     [global::Structing.Core.Annotations.FeatureRegisterAttribute(Key = {val}, Type = typeof({type}))]
-    {visibility} static class {name}FeatureExtensions
+    {visibility} static class {name}{extenName}
     {{        
         public static readonly System.Object Key = {val};
 

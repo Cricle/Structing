@@ -14,5 +14,9 @@ namespace Structing.CodeGen.Internal
         public const string Name = "Structing.Core.Annotations.FeatureAttribute";
 
         public const string Key = "Key";
+
+        public const string Type = "Type";
+
+        public const string ExtensionName = "ExtensionName";
     }
 }
