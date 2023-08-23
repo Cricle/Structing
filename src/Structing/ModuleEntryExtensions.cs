@@ -24,6 +24,7 @@ namespace Structing
 
             moduleEntry.ReadyRegister(context);
             moduleEntry.Register(context);
+            moduleEntry.AfterRegister(context);
         }
         public static void RunRegister(this IModuleRegister moduleEntry, IServiceCollection services)
         {

@@ -25,7 +25,7 @@ namespace Structing
         {
             return ModuleInfoFactory?.Invoke(provider) ?? base.GetModuleInfo(provider);
         }
-        protected override Assembly GetAssembly()
+        protected internal override Assembly GetAssembly()
         {
             return Assembly;
         }

@@ -89,5 +89,13 @@ namespace Structing.Core
         {
             return RunAll(serviceProvider, (a, b) => b.StopAsync(a));
         }
+
+        public void AfterRegister(IRegisteContext context)
+        {
+            foreach (var item in this)
+            {
+                item.AfterRegister(context);
+            }
+        }
     }
 }

@@ -12,10 +12,15 @@ namespace Structing.Test
     {
         public class ValueAutoModuleEntity : AutoModuleEntry
         {
-            protected override Assembly GetAssembly()
+            protected internal override Assembly GetAssembly()
             {
                 return typeof(NullIniter).Assembly;
             }
+        }
+        [TestMethod]
+        public void AssemblyMustFunReturn()
+        {
+            Assert.AreEqual(typeof(NullIniter).Assembly, new ValueAutoModuleEntity().GetAssembly());
         }
         [TestMethod]
         [DataRow(true)]

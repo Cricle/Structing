@@ -14,6 +14,10 @@ namespace Structing.Test
     {
         class NullModuleRegister : IModuleRegister
         {
+            public void AfterRegister(IRegisteContext context)
+            {
+            }
+
             public void ReadyRegister(IRegisteContext context)
             {
             }
@@ -76,6 +80,12 @@ namespace Structing.Test
             {
                 IsRegister = true;
             }
+
+            public bool IsAfterRegister { get; set; }
+            public void AfterRegister(IRegisteContext context)
+            {
+                IsAfterRegister = true;
+            }
         }
         [TestMethod]
         public void RunRegister_ServiceMustBeRegisted()
@@ -85,10 +95,13 @@ namespace Structing.Test
             ModuleEntryExtensions.RunRegister(rgs, ctx);
             Assert.IsTrue(rgs.IsReadyRegister);
             Assert.IsTrue(rgs.IsRegister);
+            Assert.IsTrue(rgs.IsAfterRegister);
 
             ModuleEntryExtensions.RunRegister(rgs, new ServiceCollection());
             Assert.IsTrue(rgs.IsReadyRegister);
             Assert.IsTrue(rgs.IsRegister);
+            Assert.IsTrue(rgs.IsAfterRegister);
+
         }
         class ValueModuelReady : IModuleReady
         {

@@ -78,7 +78,7 @@ namespace Structing
             var types = GetAssembly().GetTypes();
             return types.ToDictionary(x => x, x => x.GetCustomAttributes<T>().ToArray());
         }
-        protected virtual Assembly GetAssembly()
+        protected internal virtual Assembly GetAssembly()
         {
             return GetType().Assembly;
         }
@@ -117,6 +117,10 @@ namespace Structing
         }
 
         public virtual void ReadyRegister(IRegisteContext context)
+        {
+        }
+
+        public virtual void AfterRegister(IRegisteContext context)
         {
         }
     }

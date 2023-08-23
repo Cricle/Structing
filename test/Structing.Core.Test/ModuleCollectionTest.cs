@@ -34,6 +34,19 @@ namespace Structing.Core.Test
             Assert.AreEqual(0, new ModuleCollection().Order);
         }
         [TestMethod]
+        public void Capacity_Set()
+        {
+            Assert.AreEqual(10, new ModuleCollection(10).Capacity);
+        }
+        [TestMethod]
+        public void Enumerable_Set()
+        {
+            var item = new ModuleCollection();
+            var coll = new ModuleCollection(new[] { item });
+            Assert.AreEqual(1, coll.Count);
+            Assert.AreEqual(item, coll[0]);
+        }
+        [TestMethod]
         public async Task GivenAnyModuleEntries_CallAllMethod_AllMustInvoked()
         {
             var coll = new ModuleCollection();
@@ -69,6 +82,9 @@ namespace Structing.Core.Test
 
             coll.Register(null);
             Check(x => x.IsRegister, nameof(ValueModuelEntry.IsRegister));
+
+            coll.AfterRegister(null);
+            Check(x => x.IsAfterRegister, nameof(ValueModuelEntry.IsAfterRegister));
 
             await coll.StartAsync(null);
             Check(x => x.IsStartAsync, nameof(ValueModuelEntry.IsStartAsync));

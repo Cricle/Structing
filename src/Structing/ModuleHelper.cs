@@ -17,15 +17,13 @@ namespace Structing
             var entity = new ThisModuleEntry(assembly);
             return entity.RunAsync(services, configuration, feature);
         }
-#if !NET45
         public static Task<IModuleEntryRunResult> RunAssemblyAsync(
-            IServiceCollection services = null,
-            IConfiguration configuration = null,
-            IDictionary feature = null)
+                    IServiceCollection services = null,
+                    IConfiguration configuration = null,
+                    IDictionary feature = null)
         {
             var entity = new ThisModuleEntry(Assembly.GetCallingAssembly());
             return entity.RunAsync(services, configuration, feature);
         }
-#endif
     }
 }

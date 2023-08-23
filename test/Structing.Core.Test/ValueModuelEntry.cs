@@ -66,5 +66,11 @@ namespace Structing.Core.Test
             IsStopAsync = true;
             return Comaplated();
         }
+
+        public bool IsAfterRegister { get; set; }
+        public void AfterRegister(IRegisteContext context)
+        {
+            IsAfterRegister=true;
+        }
     }
 }
