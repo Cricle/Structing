@@ -19,14 +19,18 @@ namespace Structing.Core.Test
         {
             var count = 10;
             var coll = new ModuleCollection();
-            var info = new NullModuleInfo();
             for (int i = 0; i < count; i++)
             {
-                coll.Add(new ValueModuelEntry { Order = i, Info = info });
+                var m = new ModuleInfo { ["a" + i] = i };
+                coll.Add(new ValueModuelEntry { Order = i, Info = m });
             }
             var order = Enumerable.Range(0, count).Average();
             Assert.AreEqual((int)order, coll.Order);
-            Assert.ThrowsException<NotSupportedException>(() => coll.GetModuleInfo(null));
+            var mIfo = coll.GetModuleInfo(null);
+            for (int i = 0; i < count; i++)
+            {
+                Assert.AreEqual(i, mIfo["a" + i]);
+            }
         }
         [TestMethod]
         public void NothingElement_OrderMustZero()

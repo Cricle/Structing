@@ -7,7 +7,7 @@ using System.Runtime.CompilerServices;
 
 namespace Structing.Single.Sample
 {
-    [Feature(A.Red,Type =typeof(SomeFeature))]
+    [Feature(A.Yellow, Type =typeof(SomeFeature))]
     class Program
     {
         static void Main(string[] args)
@@ -26,6 +26,7 @@ namespace Structing.Single.Sample
     }
     public enum A
     {
-        Red
+        Red,
+        Yellow
     }
 }

@@ -7,7 +7,6 @@ namespace Structing.Core
 {
     public class ModuleInfo : Dictionary<string, object>, IModuleInfo
     {
-
         public static ModuleInfo FromAssembly(Assembly assembly)
         {
             if (assembly is null)

@@ -9,7 +9,7 @@ namespace Structing.NetCore
     {
         public static IList<PluginLoader> AddFolder(this PlugLookup pluginLookup, string folderPath)
         {
-            return AddFolder(pluginLookup, folderPath, SearchOption.TopDirectoryOnly, _ => { });
+            return AddFolder(pluginLookup, folderPath, SearchOption.TopDirectoryOnly, static _ => { });
         }
         public static IList<PluginLoader> AddFolder(this PlugLookup pluginLookup, string folderPath, Action<PluginConfig> configure)
         {
@@ -17,7 +17,7 @@ namespace Structing.NetCore
         }
         public static IList<PluginLoader> AddFolder(this PlugLookup pluginLookup, string folderPath, SearchOption searchOption)
         {
-            return AddFolder(pluginLookup, folderPath, searchOption, _ => { });
+            return AddFolder(pluginLookup, folderPath, searchOption, static _ => { });
         }
         public static IList<PluginLoader> AddFolder(this PlugLookup pluginLookup, string folderPath, SearchOption searchOption, Action<PluginConfig> configure)
         {
@@ -26,7 +26,7 @@ namespace Structing.NetCore
                 throw new DirectoryNotFoundException(folderPath);
             }
             var loaders = new List<PluginLoader>();
-            foreach (var item in Directory.EnumerateFiles(folderPath, "*.deps.json", SearchOption.AllDirectories))
+            foreach (var item in Directory.EnumerateFiles(folderPath, "*.deps.json", searchOption))
             {
                 var n = Path.GetFileName(item);
                 var fn = n.Substring(0, n.Length - 10);

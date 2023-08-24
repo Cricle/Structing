@@ -56,7 +56,12 @@ namespace Structing.Core
 
         public virtual IModuleInfo GetModuleInfo(IServiceProvider provider)
         {
-            throw new NotSupportedException();
+            var moduleInfo = new ModuleInfo();
+            foreach (var item in this.SelectMany(x=>x.GetModuleInfo(provider)))
+            {
+                moduleInfo[item.Key] = item.Value;
+            }
+            return moduleInfo;
         }
 
         public Task ReadyAsync(IReadyContext context)
