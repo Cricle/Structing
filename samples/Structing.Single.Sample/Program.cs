@@ -1,9 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Structing.Core;
 using Structing.Core.Annotations;
 using System;
-using System.Linq.Expressions;
-using System.Runtime.CompilerServices;
+using System.Linq;
 
 namespace Structing.Single.Sample
 {
@@ -12,6 +10,7 @@ namespace Structing.Single.Sample
     {
         static void Main(string[] args)
         {
+            new W().Run();
             var provider = ModuleHelper.RunAssemblyAsync().GetAwaiter().GetResult();
 
             var ser = provider.GetRequiredService<SayHelloService>();
@@ -28,5 +27,14 @@ namespace Structing.Single.Sample
     {
         Red,
         Yellow
+    }
+    partial class W
+    {
+        public void Run()
+        {
+            Say();
+        }
+
+        partial void Say();
     }
 }

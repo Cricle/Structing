@@ -150,9 +150,17 @@ namespace Structing.CodeGen.Internal
             TryGet{name}(ctx,out var value);
             return value;
         }}
+        public static {type} GetRequired{name}(this {Interfaces.IFeatureContext} ctx)
+        {{
+            if(TryGet{name}(ctx,out var value))
+            {{
+                return value;
+            }}
+            throw new global::System.InvalidOperationException($""No feature for type '{type}' has been registered"");
+        }}
     }}
 {endNameSpace}
-";
+"; 
             context.AddSource($"{name}Feature.g.cs", Helpers.FormatCode(code));
         }
 
