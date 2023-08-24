@@ -1,26 +1,35 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Structing.Annotations;
 using System;
+using System.Threading.Tasks;
 
 [assembly: ModuleEntry]
-
 namespace Structing.Single.Sample
 {
+    [EnableService(ServiceLifetime = ServiceLifetime.Singleton)]
+    [ModulePart(OnlyCodeGen = true)]
+    [ModuleIniter(OnlyCodeGen = true)]
     class Program
     {
+        public int Value;
+        public void SayHello() => Console.WriteLine("Say hello");
+
+        [ModuleIgnore]
         static void Main(string[] args)
         {
-            var provider = new SampleModuleEntry().RunAsync().GetAwaiter().GetResult();
+            var provider = new SampleModuleEntry().Run();
 
-            var ser = provider.GetRequiredService<SayHelloService>();
-            ser.SayHello();
+            var valueSer = provider.GetRequiredService<Program>();
+            valueSer.SayHello();
 
-            Console.WriteLine(provider.GetRequiredService<ValueService>().Value);
+            Console.WriteLine(valueSer.Value);
         }
-        [ModulePart]
-        public static void RegistSome(IRegisteContext context)
+        public static void RegistSome(IRegisteContext context) => Console.WriteLine("Execute RegistSome");
+
+        internal static Task InitSomeAsync(IReadyContext context)
         {
-            Console.WriteLine("Execute RegistSome");
+            Console.WriteLine("Execute InitSomeAsync");
+            return Task.CompletedTask;
         }
     }
 }

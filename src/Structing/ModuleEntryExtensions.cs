@@ -67,6 +67,13 @@ namespace Structing
 
             return RunAsync(new IModuleEntry[] { modules }, services, configuration, feature);
         }
+        public static IModuleEntryRunResult Run(this IModuleEntry modules,
+            IServiceCollection services = null,
+            IConfiguration configuration = null,
+            IDictionary feature = null)
+        {
+            return RunAsync(modules, services, configuration, feature).GetAwaiter().GetResult();
+        }
         class ModuleEntryRunResult : IModuleEntryRunResult, IServiceProvider
         {
             public IEnumerable<IModuleEntry> ModuleEntries { get; set; }
@@ -93,8 +100,7 @@ namespace Structing
             {
                 throw new ArgumentNullException(nameof(modules));
             }
-
-            if (services == null)
+            if (services==null)
             {
                 services = new ServiceCollection();
             }

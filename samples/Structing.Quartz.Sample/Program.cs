@@ -6,6 +6,8 @@ using Structing.Quartz.Annotations;
 using System;
 using System.Threading.Tasks;
 
+[assembly:ModuleEntry]
+
 namespace Structing.Quartz.Sample
 {
     internal class Program
@@ -19,7 +21,7 @@ namespace Structing.Quartz.Sample
         }
         private static async Task Run(IServiceCollection services)
         {
-            var module = new ThisModuleEntry(typeof(Program).Assembly);
+            var module = new SampleModuleEntry();
             var result = await module.RunAsync(services);
             var scheduler = await result.GetRequiredService<ISchedulerFactory>().GetScheduler();
             if (!scheduler.IsStarted)

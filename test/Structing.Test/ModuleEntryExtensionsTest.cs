@@ -5,6 +5,7 @@ using Structing;
 using Structing.Test;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 
 namespace Structing.Test
@@ -12,6 +13,7 @@ namespace Structing.Test
     [TestClass]
     public class ModuleEntryExtensionsTest
     {
+        [ExcludeFromCodeCoverage]
         class NullModuleRegister : IModuleRegister
         {
             public void AfterRegister(IRegisteContext context)
@@ -33,6 +35,7 @@ namespace Structing.Test
                 return null;
             }
         }
+        [ExcludeFromCodeCoverage]
         class NullModuelReady : IModuleReady
         {
             public Task AfterReadyAsync(IReadyContext context)
@@ -68,7 +71,8 @@ namespace Structing.Test
             Assert.ThrowsException<ArgumentNullException>(() => ModuleEntryExtensions.RunRegister(moduleRegister, (IRegisteContext)null));
 
         }
-        class ValueModuleRegister : IModuleRegister
+        [ExcludeFromCodeCoverage]
+        class ValueModule : IModuleEntry
         {
             public bool IsReadyRegister { get; set; }
             public void ReadyRegister(IRegisteContext context)
@@ -86,25 +90,7 @@ namespace Structing.Test
             {
                 IsAfterRegister = true;
             }
-        }
-        [TestMethod]
-        public void RunRegister_ServiceMustBeRegisted()
-        {
-            var rgs = new ValueModuleRegister();
-            var ctx = new RegisteContext(new ServiceCollection());
-            ModuleEntryExtensions.RunRegister(rgs, ctx);
-            Assert.IsTrue(rgs.IsReadyRegister);
-            Assert.IsTrue(rgs.IsRegister);
-            Assert.IsTrue(rgs.IsAfterRegister);
 
-            ModuleEntryExtensions.RunRegister(rgs, new ServiceCollection());
-            Assert.IsTrue(rgs.IsReadyRegister);
-            Assert.IsTrue(rgs.IsRegister);
-            Assert.IsTrue(rgs.IsAfterRegister);
-
-        }
-        class ValueModuelReady : IModuleReady
-        {
             public bool IsAfterReadyAsync { get; set; }
             public Task AfterReadyAsync(IReadyContext context)
             {
@@ -120,22 +106,94 @@ namespace Structing.Test
             }
 
             public bool IsReadyAsync { get; set; }
+
+            public int Order => 0;
+
             public Task ReadyAsync(IReadyContext context)
             {
                 IsReadyAsync = true;
                 return Task.FromResult(1);
             }
+
+            public IModuleInfo GetModuleInfo(IServiceProvider provider)
+            {
+                return ModuleInfo.FromAssembly(GetType().Assembly);
+            }
+
+            public bool IsStartAsync { get; set; }
+            public Task StartAsync(IServiceProvider serviceProvider)
+            {
+                return Task.CompletedTask;
+            }
+
+            public bool IsStopAsync { get; set; }
+            public Task StopAsync(IServiceProvider serviceProvider)
+            {
+                return Task.CompletedTask;
+            }
+        }
+        [TestMethod]
+        public void RunRegister_ServiceMustBeRegisted()
+        {
+            var rgs = new ValueModule();
+            var ctx = new RegisteContext(new ServiceCollection());
+            ModuleEntryExtensions.RunRegister(rgs, ctx);
+            Assert.IsTrue(rgs.IsReadyRegister);
+            Assert.IsTrue(rgs.IsRegister);
+            Assert.IsTrue(rgs.IsAfterRegister);
+
+            ModuleEntryExtensions.RunRegister(rgs, new ServiceCollection());
+            Assert.IsTrue(rgs.IsReadyRegister);
+            Assert.IsTrue(rgs.IsRegister);
+            Assert.IsTrue(rgs.IsAfterRegister);
+
         }
         [TestMethod]
         public async Task RunReady_ServiceMustBeRegisted()
         {
-            var rgs = new ValueModuelReady();
+            var rgs = new ValueModule();
             var sp = new NullServiceProvider();
             var ctx = new ReadyContext(sp);
             await ModuleEntryExtensions.RunReadyAsync(rgs, ctx);
             Assert.IsTrue(rgs.IsBeforeReadyAsync);
             Assert.IsTrue(rgs.IsReadyAsync);
             Assert.IsTrue(rgs.IsAfterReadyAsync);
+        }
+        [TestMethod]
+        public async Task RunAsync_ServiceMustBeRegisted()
+        {
+            var rgs = new ValueModule();
+            var sp = new NullServiceProvider();
+            var ctx = new ReadyContext(sp);
+            await ModuleEntryExtensions.RunAsync(rgs);
+            Assert.IsTrue(rgs.IsBeforeReadyAsync);
+            Assert.IsTrue(rgs.IsReadyAsync);
+            Assert.IsTrue(rgs.IsAfterReadyAsync);
+
+            Assert.IsTrue(rgs.IsReadyRegister);
+            Assert.IsTrue(rgs.IsRegister);
+            Assert.IsTrue(rgs.IsAfterRegister);
+            Assert.IsFalse(rgs.IsStartAsync);
+            Assert.IsFalse(rgs.IsStopAsync);
+
+        }
+        [TestMethod]
+        public void Run_ServiceMustBeRegisted()
+        {
+            var rgs = new ValueModule();
+            var sp = new NullServiceProvider();
+            var ctx = new ReadyContext(sp);
+            ModuleEntryExtensions.Run(rgs);
+            Assert.IsTrue(rgs.IsBeforeReadyAsync);
+            Assert.IsTrue(rgs.IsReadyAsync);
+            Assert.IsTrue(rgs.IsAfterReadyAsync);
+
+            Assert.IsTrue(rgs.IsReadyRegister);
+            Assert.IsTrue(rgs.IsRegister);
+            Assert.IsTrue(rgs.IsAfterRegister);
+            Assert.IsFalse(rgs.IsStartAsync);
+            Assert.IsFalse(rgs.IsStopAsync);
+
         }
         [TestMethod]
         public async Task Run()

@@ -40,12 +40,13 @@ namespace Structing.CodeGen.Internal
             return symbol.GetAttributes()
                     .Any(x => x.AttributeClass?.ToString() == typeof(GeneratorAttribute).FullName);
         }
+        public const string GlobalNs = "<global namespace>";
         public static void GetWriteNameSpace(ISymbol symbol,out string nameSpaceStart,out string nameSpaceEnd)
         {
             var rawNameSpace = GetNameSpace(symbol);
             nameSpaceStart = $"namespace {rawNameSpace}\n{{";
             nameSpaceEnd= "}";
-            if (rawNameSpace.Contains("<global namespace>"))
+            if (rawNameSpace.Contains("GlobalNs"))
             {
                 nameSpaceStart = string.Empty;
                 nameSpaceEnd = string.Empty;

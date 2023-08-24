@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
+using System.Xml.Linq;
 
 namespace Structing.CodeGen.Internal
 {
@@ -12,6 +13,7 @@ namespace Structing.CodeGen.Internal
         public const string ModuleEntryAttribute = "Structing.Annotations.ModuleEntryAttribute";
         public const string ModulePartAttribute = "Structing.Annotations.ModulePartAttribute";
         public const string ModuleIniterAttribute = "Structing.Annotations.ModuleIniterAttribute";
+        public const string ModuleIgnoreAttribute = "Structing.Annotations.ModuleIgnoreAttribute";
         public const string IRegisteContext = "Structing.IRegisteContext";
         public const string AutoModuleEntry = "Structing.AutoModuleEntry";
         public const string IReadyContext = "Structing.IReadyContext";
@@ -60,34 +62,47 @@ namespace Structing.CodeGen.Internal
                 var comp = model.Compilation.GetTypeByMetadataName($"{node.AssemblySymbol.Name}.{item}");
                 if (comp != null && comp.TypeKind == TypeKind.Class)
                 {
+                    var attrs = comp.GetAttributes();
+                    var partAttrData = attrs.FirstOrDefault(x => x.AttributeClass?.ToString() == ModuleEntryConst.ModulePartAttribute);
+                    var initAttrData = attrs.FirstOrDefault(x => x.AttributeClass?.ToString() == ModuleEntryConst.ModuleIniterAttribute);
                     foreach (var method in comp.GetMembers().OfType<IMethodSymbol>())
                     {
                         if (method.IsStatic &&
                             method.DeclaredAccessibility != Accessibility.Private)
                         {
                             var attributes = method.GetAttributes();
-                            if (attributes.Length == 0)
+                            if ((attributes.Length == 0&&partAttrData==null&&initAttrData==null) ||
+                                attributes.Any(x => x.AttributeClass?.ToString() == ModuleEntryConst.ModuleIgnoreAttribute))
                             {
                                 continue;
                             }
                             var attrNames = new HashSet<string>(attributes.Select(x => x.AttributeClass?.ToString()).Where(x => !string.IsNullOrWhiteSpace(x))!);
-                            if (attrNames.Contains(ModuleEntryConst.ModulePartAttribute))
+                            if (attrNames.Contains(ModuleEntryConst.ModulePartAttribute)|| partAttrData!=null)
                             {
                                 if (!IsModulePart(method))
                                 {
                                     context.ReportDiagnostic(Diagnostic.Create(Messages.ModulePartDefineFail, method.Locations[0], Array.Empty<string>()));
-                                    continue;
+                                    if (partAttrData==null)
+                                    {
+                                        continue;
+                                    }
                                 }
-                                modulePart.Add(new MethodInfo(method, attributes.First(x => x.AttributeClass?.ToString() == ModuleEntryConst.ModulePartAttribute)));
+                                else
+                                {
+                                    modulePart.Add(new MethodInfo(method, partAttrData ?? attributes.First(x => x.AttributeClass?.ToString() == ModuleEntryConst.ModulePartAttribute)));
+                                }
                             }
-                            else if (attrNames.Contains(ModuleEntryConst.ModuleIniterAttribute))
+                            if (attrNames.Contains(ModuleEntryConst.ModuleIniterAttribute)||initAttrData!=null)
                             {
                                 if (!IsModuleInit(method))
                                 {
                                     context.ReportDiagnostic(Diagnostic.Create(Messages.ModuleInitDefineFail, method.Locations[0], Array.Empty<string>()));
                                     continue;
                                 }
-                                moduleInit.Add(new MethodInfo(method, attributes.First(x => x.AttributeClass?.ToString() == ModuleEntryConst.ModuleIniterAttribute)));
+                                else
+                                {
+                                    moduleInit.Add(new MethodInfo(method, initAttrData ?? attributes.First(x => x.AttributeClass?.ToString() == ModuleEntryConst.ModuleIniterAttribute)));
+                                }
                             }
                         }
                     }

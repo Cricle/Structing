@@ -18,8 +18,14 @@ namespace Structing.Annotations
 
         public int Order { get; set; }
 
+        public bool OnlyCodeGen { get; set; }
+
         public override Task ReadyAsync(IReadyContext context, Type targetType)
         {
+            if (OnlyCodeGen)
+            {
+                return Task.CompletedTask;
+            }
             if (targetType.GetInterface(InterfaceName) == null ||
                 !targetType.IsClass || targetType.IsAbstract)
             {
