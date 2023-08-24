@@ -13,9 +13,11 @@ namespace Structing.CodeGen.Internal
         public const string ModulePartAttribute = "Structing.Annotations.ModulePartAttribute";
         public const string ModuleIniterAttribute = "Structing.Annotations.ModuleIniterAttribute";
         public const string IRegisteContext = "Structing.IRegisteContext";
+        public const string AutoModuleEntry = "Structing.AutoModuleEntry";
         public const string IReadyContext = "Structing.IReadyContext";
         public const string Task = "System.Threading.Tasks.Task";
         public const string Positions = "Positions";
+        public const string Order = "Order";
     }
     internal class ModuleEntryParser
     {
@@ -29,18 +31,22 @@ namespace Structing.CodeGen.Internal
 
             public readonly string Call;
 
+            public readonly int Order;
+
             public MethodInfo(IMethodSymbol method,AttributeData attribute)
             {
                 Position = 1;
                 Method = method;
                 Attribute = attribute;
                 var posArg = attribute.NamedArguments.FirstOrDefault(x => x.Key == ModuleEntryConst.Positions);
+                var orderArg= attribute.NamedArguments.FirstOrDefault(x => x.Key == ModuleEntryConst.Order);
                 _ = posArg.Value.Value == null &&int.TryParse(posArg.Value.Value?.ToString(), out Position);
                 if (Position < 0 && Position > 3)
                 {
                     Position = 1;
                 }
-                Call = $"{(method.ReturnsVoid?string.Empty:"await ")}{method.ReceiverType}.{method.Name}(context);";
+                _ = orderArg.Value.Value != null && int.TryParse(orderArg.Value.Value?.ToString(), out Order);
+                Call = $"{(method.ReturnsVoid?string.Empty:"await ")}global::{method.ReceiverType}.{method.Name}(context);";
             }
         }
 
@@ -69,7 +75,7 @@ namespace Structing.CodeGen.Internal
                             {
                                 if (!IsModulePart(method))
                                 {
-                                    context.ReportDiagnostic(Diagnostic.Create(Messages.ModulePartDefineFail, null, Array.Empty<string>()));
+                                    context.ReportDiagnostic(Diagnostic.Create(Messages.ModulePartDefineFail, method.Locations[0], Array.Empty<string>()));
                                     continue;
                                 }
                                 modulePart.Add(new MethodInfo(method, attributes.First(x => x.AttributeClass?.ToString() == ModuleEntryConst.ModulePartAttribute)));
@@ -78,7 +84,7 @@ namespace Structing.CodeGen.Internal
                             {
                                 if (!IsModuleInit(method))
                                 {
-                                    context.ReportDiagnostic(Diagnostic.Create(Messages.ModuleInitDefineFail, null, Array.Empty<string>()));
+                                    context.ReportDiagnostic(Diagnostic.Create(Messages.ModuleInitDefineFail, method.Locations[0], Array.Empty<string>()));
                                     continue;
                                 }
                                 moduleInit.Add(new MethodInfo(method, attributes.First(x => x.AttributeClass?.ToString() == ModuleEntryConst.ModuleIniterAttribute)));
@@ -87,16 +93,36 @@ namespace Structing.CodeGen.Internal
                     }
                 }
             }
-            if (modulePart.Count == 0 && moduleInit.Count == 0)
+
+            var assemblySymbol = node.Value as IAssemblySymbol;
+            if (assemblySymbol==null&&(modulePart.Count == 0 && moduleInit.Count == 0))
             {
                 return;
             }
-            node.GetWriteNameSpace(out var nsStart, out var nsEnd);
-            var name = node.Value!.Name;
+            modulePart.Sort((x, y) => y.Order - x.Order);
+            moduleInit.Sort((x, y) => y.Order - x.Order);
+            string nsStart;
+            string nsEnd;
+            string visibility;
+            var baseClass = string.Empty;
+            var name = node.Value?.Name;
+            if (assemblySymbol!=null)
+            {
+                visibility = "public";
+                name = assemblySymbol.Name.Split('.').Last()+"ModuleEntry";
+                nsStart =$"namespace {assemblySymbol.Name}\n{{";
+                nsEnd = "}";
+                baseClass = $": global::{ModuleEntryConst.AutoModuleEntry}";
+            }
+            else
+            {
+                visibility = node.GetAccessibilityString();
+                node.GetWriteNameSpace(out nsStart, out nsEnd);
+            }
             var code = $@"
 {nsStart}
 
-    partial class {name}
+    {visibility} partial class {name} {baseClass}
     {{        
         public sealed override void ReadyRegister(global::Structing.IRegisteContext context)
         {{

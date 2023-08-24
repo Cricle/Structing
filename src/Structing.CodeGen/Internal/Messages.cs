@@ -10,7 +10,7 @@ namespace Structing.CodeGen.Internal
         public static readonly DiagnosticDescriptor ModulePartDefineFail = new DiagnosticDescriptor(
             "STRUCTING_001",
             "Module part define fail",
-            "The model part method must be ** void Any(IRegisteContext context) **",
+            "The model part method must be ** void Any(IRegisteContext context) **, it will not to generate code",
             "STRUCTING",
             DiagnosticSeverity.Warning,
             true
@@ -18,7 +18,7 @@ namespace Structing.CodeGen.Internal
         public static readonly DiagnosticDescriptor ModuleInitDefineFail = new DiagnosticDescriptor(
             "STRUCTING_002",
             "Module init define fail",
-            "The model init method must be ** Task Any(IReadyContext context) **",
+            "The model init method must be ** Task Any(IReadyContext context) **, it will not to generate code",
             "STRUCTING",
             DiagnosticSeverity.Warning,
             true

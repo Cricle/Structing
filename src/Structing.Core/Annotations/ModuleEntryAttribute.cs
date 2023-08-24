@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Structing.Annotations
 {
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
+    [AttributeUsage(AttributeTargets.Class| AttributeTargets.Assembly, AllowMultiple = false, Inherited = false)]
     public sealed class ModuleEntryAttribute : Attribute
     {
     }

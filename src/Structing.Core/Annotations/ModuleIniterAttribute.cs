@@ -16,6 +16,8 @@ namespace Structing.Annotations
 
         public ActivationPositions Positions { get; set; } = ActivationPositions.Default;
 
+        public int Order { get; set; }
+
         public override Task ReadyAsync(IReadyContext context, Type targetType)
         {
             if (targetType.GetInterface(InterfaceName) == null ||

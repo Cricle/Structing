@@ -11,6 +11,8 @@ namespace Structing.Annotations
 
         public ActivationPositions Positions { get; set; } = ActivationPositions.Default;
 
+        public int Order { get; set; }
+
         public override void Register(IRegisteContext context, Type type)
         {
             if (type.GetInterface(InterfaceName) == null ||
