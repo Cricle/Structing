@@ -7,25 +7,22 @@ using System.Threading.Tasks;
 namespace Structing.Single.Sample
 {
     [EnableService(ServiceLifetime = ServiceLifetime.Singleton)]
-    [ModulePart(OnlyCodeGen = true)]
-    [ModuleIniter(OnlyCodeGen = true)]
     class Program
     {
         public int Value;
-        public void SayHello() => Console.WriteLine("Say hello");
-
-        [ModuleIgnore]
         static void Main(string[] args)
         {
             var provider = new SampleModuleEntry().Run();
 
             var valueSer = provider.GetRequiredService<Program>();
-            valueSer.SayHello();
+            valueSer.Value++;
 
             Console.WriteLine(valueSer.Value);
         }
+        [ModulePart]
         public static void RegistSome(IRegisteContext context) => Console.WriteLine("Execute RegistSome");
 
+        [ModuleIniter]
         internal static Task InitSomeAsync(IReadyContext context)
         {
             Console.WriteLine("Execute InitSomeAsync");

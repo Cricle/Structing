@@ -4,7 +4,7 @@ using System;
 
 namespace Structing.Annotations
 {
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
+    [AttributeUsage(AttributeTargets.Class| AttributeTargets.Method, AllowMultiple = false, Inherited = false)]
     public class ModulePartAttribute : ServiceRegisterAttribute
     {
         private static readonly string InterfaceName = typeof(IModulePart).FullName;

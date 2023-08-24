@@ -35,9 +35,3 @@ Can run at `netstandard1.0` or `netstandard2.0`
 - Structing
 
 Can run at `net45` or `netstandard2.0`
-
-# Features
-
-- [ ] Add startup pipelines
-- [ ] Add samples
-- [ ] Add more tests
