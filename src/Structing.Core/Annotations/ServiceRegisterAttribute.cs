@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Structing.Core.Annotations
+namespace Structing.Annotations
 {
     public abstract class ServiceRegisterAttribute : Attribute
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Structing.Core.Test
+namespace Structing.Test
 {
     internal class ValueModuelEntry : IModuleEntry
     {

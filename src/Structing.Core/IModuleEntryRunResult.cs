@@ -4,7 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Structing.Core
+namespace Structing
 {
     public interface IModuleEntryRunResult : IServiceProvider
     {

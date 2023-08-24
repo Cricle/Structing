@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Structing.Core.Annotations;
+using Structing.Annotations;
 
 namespace Structing.AspNetCore
 {

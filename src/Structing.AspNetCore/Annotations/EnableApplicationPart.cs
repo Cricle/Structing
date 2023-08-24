@@ -1,5 +1,5 @@
-﻿using Structing.Core;
-using Structing.Core.Annotations;
+﻿using Structing;
+using Structing.Annotations;
 using System;
 using System.Collections;
 

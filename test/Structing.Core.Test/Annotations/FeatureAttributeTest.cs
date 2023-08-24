@@ -1,12 +1,12 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Structing.Core.Annotations;
+using Structing.Annotations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Structing.Core.Test.Annotations
+namespace Structing.Test.Annotations
 {
     [TestClass]
     public class FeatureAttributeTest

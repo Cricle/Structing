@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Builder;
-using Structing.Core.Annotations;
+using Structing.Annotations;
 using System.Collections.Generic;
 using System.Reflection;
 

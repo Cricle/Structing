@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Structing.Core.Annotations
+namespace Structing.Annotations
 {
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
     public sealed class FeatureRegisterAttribute : Attribute

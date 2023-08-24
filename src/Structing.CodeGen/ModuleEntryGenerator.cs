@@ -4,7 +4,7 @@ using Structing.CodeGen.Internal;
 namespace Structing.CodeGen
 {
     [Generator]
-    public class FeatureGenerator : IIncrementalGenerator
+    public class ModuleEntryGenerator : IIncrementalGenerator
     {
         private IncrementalGeneratorInitializationContext context;
 
@@ -12,13 +12,13 @@ namespace Structing.CodeGen
         {
             this.context = context;
             var syntaxProvider = context.SyntaxProvider
-                .ForAttributeWithMetadataName(FeatureConsts.Name, FeatureParser.Predicate, FeatureParser.Transform)
+                .ForAttributeWithMetadataName(ModuleEntryConst.ModuleEntryAttribute, ModuleEntryParser.Predicate, ModuleEntryParser.Transform)
                 .Where(x => x != null);
             context.RegisterSourceOutput(syntaxProvider, Execute);
         }
         private void Execute(SourceProductionContext context, GeneratorTransformResult<ISymbol?>? node)
         {
-            var parser = new FeatureParser();
+            var parser = new ModuleEntryParser();
             parser.Execute(context, node!);
         }
     }

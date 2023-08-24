@@ -97,19 +97,13 @@ namespace Structing.CodeGen.Internal
             var extenName = data.NamedArguments.FirstOrDefault(x => x.Key == FeatureConsts.ExtensionName).Value.Value?.ToString()?? "FeatureExtensions";
             var name = typeSymbol!.Name;
             var visibility = node.GetAccessibilityString();
-            var nameSpace = "namespace "+node.GetNameSpace()+"\n{";
-            var endNameSpace = "}";
-            if (nameSpace.Contains("<global namespace>"))
-            {
-                endNameSpace = string.Empty;
-                nameSpace = string.Empty;
-            }
+            node.GetWriteNameSpace(out var nsStart,out var nsEnd);
             var type = "global::" + typeSymbol.ToString();
             var code = $@"
-{nameSpace}
+{nsStart}
     {Consts.Generate}
     {Consts.CompilerGenerated}
-    [global::Structing.Core.Annotations.FeatureRegisterAttribute(Key = {val}, Type = typeof({type}))]
+    [global::Structing.Annotations.FeatureRegisterAttribute(Key = {val}, Type = typeof({type}))]
     {visibility} static class {name}{extenName}
     {{        
         public static readonly System.Object Key = {val};
@@ -159,7 +153,7 @@ namespace Structing.CodeGen.Internal
             throw new global::System.InvalidOperationException($""No feature for type '{type}' has been registered"");
         }}
     }}
-{endNameSpace}
+{nsEnd}
 "; 
             context.AddSource($"{name}Feature.g.cs", Helpers.FormatCode(code));
         }

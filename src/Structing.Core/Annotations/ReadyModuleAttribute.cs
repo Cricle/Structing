@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Structing.Core.Annotations
+namespace Structing.Annotations
 {
     [AttributeUsage(AttributeTargets.Class)]
     public abstract class ReadyModuleAttribute : Attribute

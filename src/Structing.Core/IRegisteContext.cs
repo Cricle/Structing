@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System.Collections;
 
-namespace Structing.Core
+namespace Structing
 {
     public interface IFeatureContext
     {

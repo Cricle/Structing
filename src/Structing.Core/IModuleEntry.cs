@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Structing.Core
+namespace Structing
 {
     public interface IModuleEntry : IModuleReady, IModuleRegister
     {

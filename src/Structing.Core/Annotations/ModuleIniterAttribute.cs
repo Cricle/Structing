@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Structing.Core;
-using Structing.Core.Annotations;
+using Structing;
+using Structing.Annotations;
 using System;
 using System.Diagnostics;
 using System.Linq;
@@ -9,10 +9,12 @@ using System.Threading.Tasks;
 
 namespace Structing.Annotations
 {
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
+    [AttributeUsage(AttributeTargets.Class| AttributeTargets.Method, AllowMultiple = false, Inherited = false)]
     public class ModuleIniterAttribute : ReadyModuleAttribute
     {
         private static readonly string InterfaceName = typeof(IModuleInit).FullName;
+
+        public ActivationPositions Positions { get; set; } = ActivationPositions.Default;
 
         public override Task ReadyAsync(IReadyContext context, Type targetType)
         {

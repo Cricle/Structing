@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
 
-namespace Structing.Core
+namespace Structing
 {
     public class ModuleInfo : Dictionary<string, object>, IModuleInfo
     {

@@ -1,5 +1,5 @@
 ﻿using Quartz;
-using Structing.Core;
+using Structing;
 using System;
 
 namespace Structing.Quartz.Annotations

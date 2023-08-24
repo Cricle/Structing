@@ -1,4 +1,4 @@
-﻿using Structing.Core;
+﻿using Structing;
 using System.Threading.Tasks;
 
 namespace Structing.Annotations

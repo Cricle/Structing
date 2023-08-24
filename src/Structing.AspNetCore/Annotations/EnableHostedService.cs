@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
-using Structing.Core;
-using Structing.Core.Annotations;
+using Structing;
+using Structing.Annotations;
 using System;
 
 namespace Structing.AspNetCore.Annotations
@@ -10,7 +10,7 @@ namespace Structing.AspNetCore.Annotations
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
     public sealed class EnableHostedServiceAttribute : ServiceRegisterAttribute
     {
-        private static readonly string IHostedServiceTypeName = typeof(IHostedService).FullName;
+        private static readonly string IHostedServiceTypeName = typeof(IHostedService).FullName!;
 
         public override void Register(IRegisteContext context, Type type)
         {

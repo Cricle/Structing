@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 
-namespace Structing.Core.Test
+namespace Structing.Test
 {
     [TestClass]
     public class RegisteContextTest

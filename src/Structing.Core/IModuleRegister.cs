@@ -1,4 +1,4 @@
-﻿namespace Structing.Core
+﻿namespace Structing
 {
     public interface IModuleRegister
     {

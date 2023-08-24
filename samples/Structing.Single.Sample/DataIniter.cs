@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Structing.Annotations;
-using Structing.Core;
+using Structing;
 using System.Threading.Tasks;
 
 namespace Structing.Single.Sample

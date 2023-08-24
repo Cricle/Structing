@@ -2,7 +2,7 @@
 using System;
 using System.Collections;
 
-namespace Structing.Core
+namespace Structing
 {
     public interface IReadyContext : IServiceProvider, IFeatureContext
     {

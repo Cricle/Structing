@@ -1,13 +1,15 @@
-﻿using Structing.Core;
-using Structing.Core.Annotations;
+﻿using Structing;
+using Structing.Annotations;
 using System;
 
 namespace Structing.Annotations
 {
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
+    [AttributeUsage(AttributeTargets.Class| AttributeTargets.Method, AllowMultiple = false, Inherited = false)]
     public class ModulePartAttribute : ServiceRegisterAttribute
     {
         private static readonly string InterfaceName = typeof(IModulePart).FullName;
+
+        public ActivationPositions Positions { get; set; } = ActivationPositions.Default;
 
         public override void Register(IRegisteContext context, Type type)
         {

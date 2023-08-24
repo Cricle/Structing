@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Structing.Core;
+using Structing;
 using System.Collections;
 using System.Reflection;
 using System.Threading.Tasks;

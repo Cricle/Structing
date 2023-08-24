@@ -1,4 +1,4 @@
-﻿using Structing.Core.Annotations;
+﻿using Structing.Annotations;
 
 namespace Structing.AspNetCore.Sample
 {

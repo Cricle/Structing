@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 
-namespace Structing.Core
+namespace Structing
 {
     internal static class ArrayHelper<T>
     {

@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Structing.Core;
-using Structing.Core.Test;
+using Structing;
+using Structing.Test;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;

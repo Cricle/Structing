@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Quartz;
-using Structing.Core;
+using Structing;
 using Structing.Quartz.Annotations;
 using System;
 using System.Collections.Generic;

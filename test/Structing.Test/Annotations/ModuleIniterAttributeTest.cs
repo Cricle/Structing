@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Structing.Annotations;
-using Structing.Core;
+using Structing;
 using System;
 using System.Threading.Tasks;
 

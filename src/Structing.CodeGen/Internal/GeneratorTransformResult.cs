@@ -1,5 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
 using System.Linq;
+using System.Xml.Linq;
 
 namespace Structing.CodeGen.Internal
 {
@@ -25,6 +26,10 @@ namespace Structing.CodeGen.Internal
         {
             return GetNameSpace(SyntaxContext.TargetSymbol);
         }
+        public void GetWriteNameSpace(out string nameSpaceStart, out string nameSpaceEnd)
+        {
+            GetWriteNameSpace(SyntaxContext.TargetSymbol,out nameSpaceStart,out nameSpaceEnd);
+        }
         public string GetAccessibilityString()
         {
             return GetAccessibilityString(SyntaxContext.TargetSymbol.DeclaredAccessibility);
@@ -35,7 +40,19 @@ namespace Structing.CodeGen.Internal
             return symbol.GetAttributes()
                     .Any(x => x.AttributeClass?.ToString() == typeof(GeneratorAttribute).FullName);
         }
-        public static string? GetNameSpace(ISymbol symbol)
+        public static void GetWriteNameSpace(ISymbol symbol,out string nameSpaceStart,out string nameSpaceEnd)
+        {
+            var rawNameSpace = GetNameSpace(symbol);
+            nameSpaceStart = $"namespace {rawNameSpace}\n{{";
+            nameSpaceEnd= "}";
+            if (rawNameSpace.Contains("<global namespace>"))
+            {
+                nameSpaceStart = string.Empty;
+                nameSpaceEnd = string.Empty;
+            }
+
+        }
+        public static string GetNameSpace(ISymbol symbol)
         {
             return symbol.ContainingNamespace.ToString();
         }

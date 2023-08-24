@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Structing.Core
+namespace Structing
 {
     public class ModuleCollection : List<IModuleEntry>, IModuleEntry
     {

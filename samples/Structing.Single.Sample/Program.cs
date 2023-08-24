@@ -1,7 +1,9 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Structing.Core.Annotations;
+using Structing.Annotations;
+using Structing;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Structing.Single.Sample
 {
@@ -18,6 +20,15 @@ namespace Structing.Single.Sample
 
             Console.WriteLine(provider.GetRequiredService<ValueService>().Value);
         }
+        [ModulePart]
+        public static void RegistSome(IRegisteContext context)
+        {
+
+        }
+    }
+    [ModuleEntry]
+    public partial class ModuleEntry:AutoModuleEntry
+    {
     }
     public class SomeFeature
     {

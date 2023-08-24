@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Structing.Core.Test.Annotations
+namespace Structing.Test.Annotations
 {
     [TestClass]
     public class ModulePartAttributeTest

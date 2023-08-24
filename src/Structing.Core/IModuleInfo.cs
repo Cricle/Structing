@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Structing.Core
+namespace Structing
 {
     public interface IModuleInfo : IReadOnlyDictionary<string, object>
     {

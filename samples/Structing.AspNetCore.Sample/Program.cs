@@ -1,4 +1,4 @@
-using Structing.Core;
+using Structing;
 
 namespace Structing.AspNetCore.Sample
 {

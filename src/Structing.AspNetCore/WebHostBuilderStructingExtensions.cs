@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
-using Structing.Core;
+using Structing;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;

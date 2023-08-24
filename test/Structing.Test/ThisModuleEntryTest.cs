@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Structing.Core;
+using Structing;
 using System;
 
 namespace Structing.Test
