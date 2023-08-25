@@ -136,7 +136,9 @@ namespace Structing.CodeGen.Internal
             }
             var code = $@"
 {nsStart}
-
+    {Consts.Generate}
+    {Consts.CompilerGenerated}
+    {Consts.DebuggerStepThrough}
     {visibility} partial class {name} {baseClass}
     {{        
         public sealed override void ReadyRegister(global::Structing.IRegisteContext context)

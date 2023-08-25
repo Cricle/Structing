@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 [assembly: ModuleEntry]
 namespace Structing.Single.Sample
 {
+    
     [EnableService(ServiceLifetime = ServiceLifetime.Singleton)]
     class Program
     {

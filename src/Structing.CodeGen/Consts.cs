@@ -7,6 +7,7 @@ namespace Structing.CodeGen
     {
         public const string Generate = "[global::System.CodeDom.Compiler.GeneratedCode(\"Structing.CodeGen\",\"1.0.0\")]";
         public const string CompilerGenerated = "[global::System.Runtime.CompilerServices.CompilerGenerated]";
+        public const string DebuggerStepThrough = "[global::System.Diagnostics.DebuggerStepThrough]";
     }
     internal static class Helpers
     {

@@ -103,6 +103,7 @@ namespace Structing.CodeGen.Internal
 {nsStart}
     {Consts.Generate}
     {Consts.CompilerGenerated}
+    {Consts.DebuggerStepThrough}
     [global::Structing.Annotations.FeatureRegisterAttribute(Key = {val}, Type = typeof({type}))]
     {visibility} static class {name}{extenName}
     {{        
