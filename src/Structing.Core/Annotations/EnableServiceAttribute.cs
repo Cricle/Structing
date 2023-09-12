@@ -8,6 +8,17 @@ namespace Structing.Annotations
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface, AllowMultiple = true, Inherited = false)]
     public class EnableServiceAttribute : ServiceRegisterAttribute
     {
+        public EnableServiceAttribute() 
+        {
+        }
+
+        public EnableServiceAttribute(ServiceLifetime serviceLifetime,Type implementType=null, Type serviceType = null)
+        {
+            ImplementType = implementType;
+            ServiceType = serviceType;
+            ServiceLifetime = serviceLifetime;
+        }
+
         public Type ImplementType { get; set; }
 
         public Type ServiceType { get; set; }

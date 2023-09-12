@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
-using System.Xml.Linq;
 
 namespace Structing.CodeGen.Internal
 {
@@ -23,6 +22,11 @@ namespace Structing.CodeGen.Internal
     }
     internal class ModuleEntryParser
     {
+        enum ModuleType
+        {
+            Regist,
+            Init
+        }
         readonly struct MethodInfo
         {
             public readonly IMethodSymbol Method;
@@ -35,20 +39,45 @@ namespace Structing.CodeGen.Internal
 
             public readonly int Order;
 
-            public MethodInfo(IMethodSymbol method,AttributeData attribute)
+            public readonly IReadOnlyList<string>? Paramters;
+
+            public readonly ModuleType ModuleType;
+
+            public MethodInfo(IMethodSymbol method, AttributeData attribute, ModuleType moduleType)
             {
+                ModuleType = moduleType;
                 Position = 1;
                 Method = method;
                 Attribute = attribute;
                 var posArg = attribute.NamedArguments.FirstOrDefault(x => x.Key == ModuleEntryConst.Positions);
-                var orderArg= attribute.NamedArguments.FirstOrDefault(x => x.Key == ModuleEntryConst.Order);
-                _ = posArg.Value.Value == null &&int.TryParse(posArg.Value.Value?.ToString(), out Position);
+                var orderArg = attribute.NamedArguments.FirstOrDefault(x => x.Key == ModuleEntryConst.Order);
+                _ = posArg.Value.Value == null && int.TryParse(posArg.Value.Value?.ToString(), out Position);
                 if (Position < 0 && Position > 3)
                 {
                     Position = 1;
                 }
                 _ = orderArg.Value.Value != null && int.TryParse(orderArg.Value.Value?.ToString(), out Order);
-                Call = $"{(method.ReturnsVoid?string.Empty:"await ")}global::{method.ReceiverType}.{method.Name}(context);";
+                if (ModuleType == ModuleType.Init)
+                {
+                    var pars = new List<string>();
+                    foreach (var item in method.Parameters)
+                    {
+                        if (item.Type?.ToString() == ModuleEntryConst.IReadyContext)
+                        {
+                            pars.Add("context");
+                        }
+                        else
+                        {
+                            pars.Add($"context.GetRequiredService<global::{item.Type}>()");
+                        }
+                    }
+                    Paramters = pars;
+                    Call = $"{(method.ReturnsVoid ? string.Empty : "await ")}global::{method.ReceiverType}.{method.Name}({string.Join(", ", pars)});";
+                }
+                else
+                {
+                    Call = $"{(method.ReturnsVoid ? string.Empty : "await ")}global::{method.ReceiverType}.{method.Name}(context);";
+                }
             }
         }
 
@@ -89,20 +118,12 @@ namespace Structing.CodeGen.Internal
                                 }
                                 else
                                 {
-                                    modulePart.Add(new MethodInfo(method, partAttrData ?? attributes.First(x => x.AttributeClass?.ToString() == ModuleEntryConst.ModulePartAttribute)));
+                                    modulePart.Add(new MethodInfo(method, partAttrData ?? attributes.First(x => x.AttributeClass?.ToString() == ModuleEntryConst.ModulePartAttribute), ModuleType.Regist));
                                 }
                             }
                             if (attrNames.Contains(ModuleEntryConst.ModuleIniterAttribute)||initAttrData!=null)
                             {
-                                if (!IsModuleInit(method))
-                                {
-                                    context.ReportDiagnostic(Diagnostic.Create(Messages.ModuleInitDefineFail, method.Locations[0], Array.Empty<string>()));
-                                    continue;
-                                }
-                                else
-                                {
-                                    moduleInit.Add(new MethodInfo(method, initAttrData ?? attributes.First(x => x.AttributeClass?.ToString() == ModuleEntryConst.ModuleIniterAttribute)));
-                                }
+                                moduleInit.Add(new MethodInfo(method, initAttrData ?? attributes.First(x => x.AttributeClass?.ToString() == ModuleEntryConst.ModuleIniterAttribute), ModuleType.Init));
                             }
                         }
                     }
@@ -136,6 +157,7 @@ namespace Structing.CodeGen.Internal
             }
             var code = $@"
 {nsStart}
+    using Microsoft.Extensions.DependencyInjection;
     {Consts.Generate}
     {Consts.CompilerGenerated}
     {Consts.DebuggerStepThrough}
@@ -194,12 +216,6 @@ namespace Structing.CodeGen.Internal
             return symbol.ReturnsVoid && 
                 symbol.Parameters.Length == 1 &&
                 symbol.Parameters[0].Type.ToString() == ModuleEntryConst.IRegisteContext;
-        }
-        private static bool IsModuleInit(IMethodSymbol symbol)
-        {
-            return symbol.ReturnType?.ToString()== ModuleEntryConst.Task && 
-                symbol.Parameters.Length == 1 &&
-                symbol.Parameters[0].Type.ToString() == ModuleEntryConst.IReadyContext;
         }
         public static GeneratorTransformResult<ISymbol?>? Transform(GeneratorAttributeSyntaxContext context, CancellationToken token)
         {

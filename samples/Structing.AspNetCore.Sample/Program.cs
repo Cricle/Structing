@@ -1,4 +1,5 @@
 using Structing;
+using Structing.Annotations;
 
 namespace Structing.AspNetCore.Sample
 {
@@ -12,11 +13,11 @@ namespace Structing.AspNetCore.Sample
 
         public static void Main(string[] args)
         {
-            var builder = WebApplication.CreateBuilder(args);
-            builder.AddModules(modules);
-            var app = builder.Build();
-            app.UseModule(modules);
-            app.Run();
+            var builder = WebApplication.CreateBuilder(args)
+                .AddModules(modules);
+            builder.Build()
+                .UseModule(modules)
+                .Run();
         }
     }
     public class Module1 : AutoModuleEntry
@@ -27,7 +28,7 @@ namespace Structing.AspNetCore.Sample
             Console.WriteLine(context.GetFeatureCount().A);
         }
     }
-    public class MainModule : AutoModuleEntry
+    public partial class MainModule : AutoModuleEntry
     {
         public override void Register(IRegisteContext context)
         {

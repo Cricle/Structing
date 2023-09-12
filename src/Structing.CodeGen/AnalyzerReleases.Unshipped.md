@@ -6,4 +6,3 @@
 Rule ID | Category | Severity | Notes
 --------|----------|----------|-------
 STRUCTING_001 | STRUCTING | Warning | Messages
-STRUCTING_002 | STRUCTING | Warning | Messages

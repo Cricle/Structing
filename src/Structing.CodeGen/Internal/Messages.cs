@@ -15,13 +15,5 @@ namespace Structing.CodeGen.Internal
             DiagnosticSeverity.Warning,
             true
             );
-        public static readonly DiagnosticDescriptor ModuleInitDefineFail = new DiagnosticDescriptor(
-            "STRUCTING_002",
-            "Module init define fail",
-            "The model init method must be ** Task Any(IReadyContext context) **, it will not to generate code",
-            "STRUCTING",
-            DiagnosticSeverity.Warning,
-            true
-            );
     }
 }
