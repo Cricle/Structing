@@ -4,6 +4,7 @@
 	<PropertyGroup>
 		<TargetFrameworks>net6.0;net7.0</TargetFrameworks>
 		<NoWarn>NETSDK1138</NoWarn>
+		<Nullable>enable</Nullable>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -11,7 +12,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Structing\Structing.csproj" />
+	  <ProjectReference Include="..\Structing\Structing.csproj" />
 	</ItemGroup>
 
 </Project>
