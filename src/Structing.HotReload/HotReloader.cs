@@ -1,14 +1,14 @@
 ﻿using Microsoft.CodeAnalysis.Emit;
+using Microsoft.CodeAnalysis.MSBuild;
 using Structing.NetCore;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Structing.HotReload
 {
-    public class HotReloader : List<string>
+    public class HotReloader : List<string>, IHotReloader
     {
         public HotReloader(IPluginLookup pluginLookup, IProjectCompiler projectCompiler, ICompileResultEmitter emitter)
         {
@@ -35,6 +35,11 @@ namespace Structing.HotReload
                 }
             }
             return results;
+        }
+
+        public static HotReloader FromDefault(string basePath, Action<ProjectLoadProgress>? progress = null)
+        {
+            return new HotReloader(new PluginLookup(), new DefaultProjectCompiler(progress), new PhysicalFileCompileResultEmitter(basePath));
         }
     }
 }

@@ -15,8 +15,8 @@ namespace Structing.HotReload
         {
             Progress = progress;
         }
-        public DefaultProjectCompiler(Action<ProjectLoadProgress> progress)
-            :this(new Progress<ProjectLoadProgress>(progress))
+        public DefaultProjectCompiler(Action<ProjectLoadProgress>? progress)
+            : this(progress == null ? null : new Progress<ProjectLoadProgress>(progress))
         {
         }
 
@@ -26,12 +26,7 @@ namespace Structing.HotReload
         {
             var dir = MSBuildWorkspace.Create();
             var project = await dir.OpenProjectAsync(csprojPath, Progress, token);
-            var compilation = await project.GetCompilationAsync(token);
-            if (compilation == null)
-            {
-                throw new InvalidOperationException($"Fail to get {csprojPath} compilation");
-            }
-            return new ProjectCompiledResult(dir, project,csprojPath);
+            return new ProjectCompiledResult(dir, project, csprojPath);
         }
     }
 }

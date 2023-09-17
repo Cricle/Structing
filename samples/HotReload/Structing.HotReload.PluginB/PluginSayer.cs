@@ -9,7 +9,7 @@ namespace Structing.HotReload.PluginB
     {
         public void Say()
         {
-            Console.WriteLine("pluginB hello1");
+            Console.WriteLine("pluginB hello2");
         }
     }
 }

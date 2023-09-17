@@ -2,12 +2,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
 namespace Structing.NetCore
 {
-    public readonly record struct PluginLookupBuildResult
+    public class PluginLookupBuildResult
     {
         public readonly ModuleCollection Modules;
 
@@ -18,20 +19,25 @@ namespace Structing.NetCore
             Modules = modules;
             AssemblyMaps = assemblyMaps;
         }
-        public Task<IServiceProvider> BuildAsync(IServiceCollection? services = null, IDictionary? features = null)
+        public Task<IServiceProvider> BuildAsync(Func<IModuleEntry, bool> mainEntitySelector,IServiceCollection? services = null, IDictionary? features = null)
         {
-            return BuildAsync(s=>s.BuildServiceProvider(),services, features);
+            return BuildAsync(s=>s.BuildServiceProvider(), mainEntitySelector, services, features);
         }
-        public async Task<IServiceProvider> BuildAsync(Func<IServiceCollection, IServiceProvider> buildService,IServiceCollection? services=null, IDictionary? features=null)
+        public async Task<IServiceProvider> BuildAsync(Func<IServiceCollection, IServiceProvider> buildService, Func<IModuleEntry, bool> mainEntitySelector, IServiceCollection? services=null, IDictionary? features=null)
         {
             services ??= new ServiceCollection();
             features ??= new Dictionary<object, object>();
+            services.AddSingleton(Modules);
+            services.AddSingleton(AssemblyMaps);
+            services.AddSingleton(this);
+            features.Add(KnowsFeatureKeys.ModulesKey, Modules);
+            features.Add(KnowsFeatureKeys.AssemblyMapsKey, AssemblyMaps);
             var regCtx = new RegisteContext(services, features);
-            Modules.RunRegister(regCtx);
+            var mainEntity = Modules.First(mainEntitySelector);
             var provider = buildService(services);
             var readyContext = new ReadyContext(provider, features);
-            Modules.RunRegister(regCtx);
-            await Modules.RunReadyAsync(readyContext);
+            mainEntity.RunRegister(regCtx);
+            await mainEntity.RunReadyAsync(readyContext);
             return provider;
         }
     }

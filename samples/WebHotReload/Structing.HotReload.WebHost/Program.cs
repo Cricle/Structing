@@ -1,6 +1,4 @@
 ﻿using Microsoft.Build.Locator;
-using Microsoft.Extensions.DependencyInjection;
-using Structing.HotReload.Contract;
 
 namespace Structing.HotReload.Host
 {
@@ -9,8 +7,8 @@ namespace Structing.HotReload.Host
         public const string FolderName = "plugins";
         private static string[] plugins = new string[]
         {
-            "Structing.HotReload.PluginA",
-            "Structing.HotReload.PluginB"
+            "Structing.HotReload.Core",
+            "Structing.HotReload.School"
         };
         static HotReloader hotReloader = null!;
         static async Task Main(string[] args)
@@ -38,11 +36,6 @@ namespace Structing.HotReload.Host
 
         private static void OnCompilerPluginReload(object? sender, HotCompilerPluginReloadedEventArgs e)
         {
-            var sayers = e.ServiceProvider.GetServices<ISayer>();
-            foreach (var item in sayers)
-            {
-                item.Say();
-            }
         }
     }
 }
