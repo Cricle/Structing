@@ -7,9 +7,9 @@
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Microsoft.Build.Locator" Version="1.6.1" />
 		<PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.8.0-1.final" />
 		<PackageReference Include="Microsoft.CodeAnalysis.Workspaces.MSBuild" Version="4.8.0-1.final" />
+		<PackageReference Include="NuGet.Configuration" Version="6.7.0" />
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\Structing.NetCore\Structing.NetCore.csproj" />

@@ -44,6 +44,7 @@ namespace Structing.HotReload.WebHost
             app = builder!.Build();
             app.UseSwagger();
             app.UseSwaggerUI();
+            app.MapDefaultControllerRoute();
             var coll = context.Features[KnowsFeatureKeys.ModulesKey] as ModuleCollection;
             context.SetIEndpointRouteBuilder(app);
             context.SetIApplicationBuilder(app);

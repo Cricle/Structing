@@ -18,7 +18,10 @@ namespace Structing.NetCore
         {
             foreach (var item in dllNames)
             {
-                lookup.Add(Path.Combine(basePath, item));
+                var isRootPath = Path.IsPathRooted(item);
+                var relative = Path.Combine(item, $"{item}.csproj");
+                var path=isRootPath? item : Path.Combine(basePath, item);
+                lookup.Add(path);
             }
             return lookup;
         }

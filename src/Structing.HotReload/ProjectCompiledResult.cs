@@ -1,6 +1,5 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.MSBuild;
-using System;
 
 namespace Structing.HotReload
 {
@@ -13,7 +12,7 @@ namespace Structing.HotReload
             ProjectFilePath = projectFilePath;
         }
 
-        internal MSBuildWorkspace Workspace { get; }
+        public MSBuildWorkspace Workspace { get; }
 
         public Project Project { get; }
 

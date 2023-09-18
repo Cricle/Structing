@@ -37,9 +37,14 @@ namespace Structing.HotReload
             return results;
         }
 
-        public static HotReloader FromDefault(string basePath, Action<ProjectLoadProgress>? progress = null)
+        public static HotReloader FromDefault(string basePath, Action<ProjectLoadProgress>? progress = null,Action<PhysicalFileCompileResultEmitter>? emitterAction=null)
         {
-            return new HotReloader(new PluginLookup(), new DefaultProjectCompiler(progress), new PhysicalFileCompileResultEmitter(basePath));
+            var emitter = new PhysicalFileCompileResultEmitter(basePath);
+            if (emitterAction!=null)
+            {
+                emitterAction(emitter);
+            }
+            return new HotReloader(new PluginLookup(), new DefaultProjectCompiler(progress), emitter);
         }
     }
 }

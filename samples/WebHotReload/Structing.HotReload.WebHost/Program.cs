@@ -1,41 +1,67 @@
-﻿using Microsoft.Build.Locator;
+﻿using Structing.NetCore;
+using System.Diagnostics;
 
 namespace Structing.HotReload.Host
 {
     class Program
     {
-        public const string FolderName = "plugins";
-        private static string[] plugins = new string[]
-        {
-            "Structing.HotReload.Core",
-            "Structing.HotReload.School"
-        };
-        static HotReloader hotReloader = null!;
+        public static string FolderName => Path.Combine(AppContext.BaseDirectory, "plugins");
         static async Task Main(string[] args)
         {
             var pluginPath = Path.Combine(AppContext.BaseDirectory, FolderName);
             var projectPath = Path.Combine(AppContext.BaseDirectory, "../../../../");
-            MSBuildLocator.RegisterDefaults();
-            hotReloader = HotReloader.FromDefault(pluginPath,
-                p => Console.WriteLine($"{p.Operation} {p.FilePath} use {p.ElapsedTime.TotalMilliseconds:F4}ms"));
-            var compiler = new HotCompiler(pluginPath, projectPath, plugins, hotReloader);
-            compiler.PluginReload += OnCompilerPluginReload;
-            await compiler.ReloadAsync();
+            var loader = new PluginHostLoader(pluginPath, "Structing.HotReload.Core");
+            IPluginLoadResult? loadResult = null;
+            Console.WriteLine("Compling");
             while (true)
             {
-                Console.WriteLine("Any key to compile plugin");
-                Console.ReadKey();
-                if (Directory.Exists(FolderName))
+                loadResult?.Dispose();
+                var result = Compile(FolderName, projectPath);
+                if (result)
                 {
-                    Directory.Delete(FolderName, true);
+                    Console.WriteLine("Compile succeed, now start web host....");
+                    loadResult = await loader.ReLoadAsync();
+                    Console.ReadLine();
                 }
-
-                await compiler.ReloadAsync();
+                else
+                {
+                    Console.WriteLine("Compile fail");
+                }
             }
         }
 
-        private static void OnCompilerPluginReload(object? sender, HotCompilerPluginReloadedEventArgs e)
+        static bool Compile(string pluginPath, string projectPath)
         {
+            var proc = new Process();
+            proc.StartInfo = new ProcessStartInfo
+            {
+                FileName = Path.Combine(AppContext.BaseDirectory, "compiler", "Structing.HotReload.Compiler.exe"),
+                ArgumentList =
+                {
+                    pluginPath,
+                    projectPath,
+                    string.Join(";",new string[]
+                    {
+                        "Structing.HotReload.Core",
+                        "C:\\Users\\huaji\\Workplace\\github\\Structing\\samples\\WebHotReload\\Structing.HotReload.School\\Structing.HotReload.School.csproj"
+                    })
+                },
+                CreateNoWindow = true,
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+            };
+            proc.StartInfo.RedirectStandardOutput = true;
+            proc.OutputDataReceived += OnProcOutputDataReceived;
+            proc.Start();
+            proc.BeginOutputReadLine();
+            proc.WaitForExit();
+            return proc.ExitCode == 0;
+        }
+
+        private static void OnProcOutputDataReceived(object sender, DataReceivedEventArgs e)
+        {
+            Console.WriteLine(e.Data);
         }
     }
 }

@@ -3,6 +3,7 @@
     "Structing.HotReload.WebHost": {
       "commandName": "Project",
       "launchBrowser": true,
+      "launchUrl": "school/index",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
