@@ -1,6 +1,7 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Emit;
+using Microsoft.Extensions.DependencyModel;
 using NuGet.Configuration;
 using Structing.HotReload.Exceptions;
 using System;

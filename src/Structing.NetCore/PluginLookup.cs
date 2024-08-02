@@ -18,9 +18,9 @@ namespace Structing.NetCore
             Add(new PluginInfo(dir, fn, optional) { ModuleEntryCreator = moduleEntryCreator });
             return this;
         }
-        public PluginLookupBuildResult Build(PluginLoader loader)
+
+        public IReadOnlyDictionary<PluginInfo, Assembly> LoadAssembly(PluginLoader loader)
         {
-            var coll = new ModuleCollection();
             var assemblyMaps = new Dictionary<PluginInfo, Assembly>();
             foreach (var item in this)
             {
@@ -28,19 +28,29 @@ namespace Structing.NetCore
                 {
                     var assembly = loader.LoadAssemblyFromPath(item.Path);
                     assemblyMaps[item] = assembly;
-                    IModuleEntry? entry = null;
-                    if (item.ModuleEntryCreator != null)
-                    {
-                        entry = item.ModuleEntryCreator(assembly);
-                    }
-                    else
-                    {
-                        entry = CreateEntry(assembly);
-                    }
-                    if (entry != null)
-                    {
-                        coll.Add(entry);
-                    }
+                }
+            }
+            return assemblyMaps;
+        }
+
+        public PluginLookupBuildResult Build(PluginLoader loader)
+        {
+            var coll = new ModuleCollection();
+            var assemblyMaps = LoadAssembly(loader);
+            foreach (var item in assemblyMaps)
+            {
+                IModuleEntry? entry = null;
+                if (item.Key.ModuleEntryCreator != null)
+                {
+                    entry = item.Key.ModuleEntryCreator(item.Value);
+                }
+                else
+                {
+                    entry = CreateEntry(item.Value);
+                }
+                if (entry != null)
+                {
+                    coll.Add(entry);
                 }
             }
             return new PluginLookupBuildResult(coll, assemblyMaps);

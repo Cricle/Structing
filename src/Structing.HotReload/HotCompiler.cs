@@ -38,23 +38,17 @@ namespace Structing.HotReload
 
         public PluginHostLoader PluginHostLoader { get; }
 
-        public bool AutoReload { get; set; }
-
         public Func<PluginLoader>? PluginLoaderCreator { get; set; }
 
         public event EventHandler<HotCompilerReloadEventArgs>? Reload;
         public event EventHandler<HotCompilerPluginReloadedEventArgs>? PluginReload;
 
-        public async Task<IPluginLoadResult?> ReloadAsync()
+        public async Task<IPluginLoadResult?> ReloadAsync(PluginHostLoaderReloadOptions options)
         {
             var f = false;
             await HotReloader.CompileAsync();
-            IPluginLoadResult? loadResult = null;
-            if (AutoReload)
-            {
-                PluginHostLoader.PluginLoader?.Reload();
-                loadResult = await PluginHostLoader.ReLoadAsync();
-            }
+            PluginHostLoader.PluginLoader?.Reload();
+            var loadResult = await PluginHostLoader.ReLoadAsync(options);
             Reload?.Invoke(this, new HotCompilerReloadEventArgs(this, f));
             return loadResult;
         }

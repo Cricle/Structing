@@ -20,7 +20,7 @@ namespace Structing.HotReload.Host
                 if (result)
                 {
                     Console.WriteLine("Compile succeed, now start web host....");
-                    loadResult = await loader.ReLoadAsync();
+                    loadResult = await loader.ReLoadAsync(new PluginHostLoaderReloadOptions {  ReloadMode= PluginReloadMode.All});
                     Console.ReadLine();
                 }
                 else
@@ -32,31 +32,33 @@ namespace Structing.HotReload.Host
 
         static bool Compile(string pluginPath, string projectPath)
         {
-            var proc = new Process();
-            proc.StartInfo = new ProcessStartInfo
-            {
-                FileName = Path.Combine(AppContext.BaseDirectory, "compiler", "Structing.HotReload.Compiler.exe"),
-                ArgumentList =
-                {
-                    pluginPath,
-                    projectPath,
-                    string.Join(";",new string[]
+            var ok = true;
+            foreach (var item in new string[]
                     {
                         "Structing.HotReload.Core",
-                        "C:\\Users\\huaji\\Workplace\\github\\Structing\\samples\\WebHotReload\\Structing.HotReload.School\\Structing.HotReload.School.csproj"
+                        "Structing.HotReload.School"
                     })
-                },
-                CreateNoWindow = true,
-                UseShellExecute = false,
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
-            };
-            proc.StartInfo.RedirectStandardOutput = true;
-            proc.OutputDataReceived += OnProcOutputDataReceived;
-            proc.Start();
-            proc.BeginOutputReadLine();
-            proc.WaitForExit();
-            return proc.ExitCode == 0;
+            {
+                var csproj = Path.Combine(projectPath, item, item + ".csproj");
+                var target = Path.Combine(pluginPath, item);
+                var proc = new Process();
+                proc.StartInfo = new ProcessStartInfo
+                {
+                    FileName = "dotnet",
+                    Arguments=$"build {csproj} -c Release -f net7.0 -o {target}",
+                    CreateNoWindow = true,
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                };
+                proc.StartInfo.RedirectStandardOutput = true;
+                proc.OutputDataReceived += OnProcOutputDataReceived;
+                proc.Start();
+                proc.BeginOutputReadLine();
+                proc.WaitForExit();
+                ok &= proc.ExitCode == 0;
+            }
+            return ok;
         }
 
         private static void OnProcOutputDataReceived(object sender, DataReceivedEventArgs e)

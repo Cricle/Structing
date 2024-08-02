@@ -1,6 +1,4 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Structing;
-using Structing.Annotations;
 using System;
 using System.Diagnostics;
 using System.Linq;
@@ -43,7 +41,7 @@ namespace Structing.Annotations
             var emptyArgConst = targetType.GetTypeInfo().DeclaredConstructors.FirstOrDefault(x => x.IsPublic && x.GetParameters().Length == 0);
             if (emptyArgConst != null && emptyArgConst.IsPublic)
             {
-                return (IModuleInit)CreateInstance(targetType, emptyArgConst, ArrayHelper<object>.Empty());
+                return (IModuleInit)CreateInstance(targetType, emptyArgConst, Array.Empty<object>());
             }
             var scopeFactory = context.Provider.GetService<IServiceScopeFactory>();
             var typeConsts = targetType.GetTypeInfo().DeclaredConstructors.Where(x => x.IsPublic);
@@ -52,7 +50,7 @@ namespace Structing.Annotations
             {
                 if (selected.GetParameters().Length == 0)
                 {
-                    return (IModuleInit)CreateInstance(targetType, selected, ArrayHelper<object>.Empty());
+                    return (IModuleInit)CreateInstance(targetType, selected, Array.Empty<object>());
                 }
                 using (var scope = scopeFactory.CreateScope())
                 {

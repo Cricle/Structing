@@ -6,6 +6,6 @@ namespace Structing.NetCore
     {
         PluginLookupBuildResult BuildResult { get; }
 
-        IServiceProvider ServiceProvider { get; }
+        IServiceProvider? ServiceProvider { get; }
     }
 }

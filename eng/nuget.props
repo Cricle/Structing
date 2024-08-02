@@ -4,9 +4,13 @@
         <Description>An easy to structing struct app framework.</Description>
         <Copyright>Cricle©2021</Copyright>
         <RepositoryUrl>https://github.com/Cricle/Structing</RepositoryUrl>
-        <Version>1.4.0-preview.2</Version>
+        <Version>1.4.0-preview.3</Version>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Configuration)'=='Release'">
         <GeneratePackageOnBuild >true</GeneratePackageOnBuild>
     </PropertyGroup>
+	<PropertyGroup Condition="$(PublishAot)!='' or $(PublishSingleFile)!=''">
+		<TargetFrameworks>net8.0</TargetFrameworks>
+		<TargetFramework>net8.0</TargetFramework>
+	</PropertyGroup>
 </Project>

@@ -1,7 +1,9 @@
 ﻿using Microsoft.Build.Locator;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.Extensions.DependencyModel;
 using Structing.HotReload.Exceptions;
+using Structing.NetCore;
 
 namespace Structing.HotReload.Compiler
 {
@@ -10,6 +12,12 @@ namespace Structing.HotReload.Compiler
         static HotReloader hotReloader = null!;
         static async Task<int> Main(string[] args)
         {
+            //args = new string[]
+            //{
+            //    "C:\\Users\\huaji\\Workplace\\github\\Structing\\samples\\WebHotReload\\Structing.HotReload.WebHost\\bin\\Debug\\net7.0\\plugins",
+            //    "C:\\Users\\huaji\\Workplace\\github\\Structing\\samples\\WebHotReload\\Structing.HotReload.WebHost\\bin\\Debug\\net7.0\\../../../../",
+            //    "Structing.HotReload.Core;Structing.HotReload.School"
+            //};
             var pluginPath = args[0];
             if (Directory.Exists(pluginPath))
             {
@@ -32,7 +40,29 @@ namespace Structing.HotReload.Compiler
         {
             try
             {
-                await compiler.ReloadAsync();
+                var result = await compiler.ReloadAsync(new PluginHostLoaderReloadOptions { ReloadMode= PluginReloadMode.None});
+                if (result != null)
+                {
+                    var writer = new DependencyContextWriter();
+                    foreach (var item in result.BuildResult.AssemblyMaps)
+                    {
+                        Console.WriteLine("Now generate deps.json");
+                        var d =DependencyContext.Load(item.Value);
+                        var depCtx = DependencyContext.Load(item.Value);
+                        if (depCtx != null)
+                        {
+                            var depFile = Path.Combine(item.Key.Directory, $"{Path.GetFileNameWithoutExtension(item.Key.FileName)}.deps.json");
+                            using (var fs = File.Open(depFile, FileMode.Create))
+                            {
+                                writer.Write(depCtx, fs);
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("Fail to load dep ctx");
+                        }
+                    }
+                }
                 return true;
             }
             catch (Exception ex)

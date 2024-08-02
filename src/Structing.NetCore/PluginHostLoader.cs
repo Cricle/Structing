@@ -3,6 +3,9 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 using System.Threading;
+using System.Linq;
+using System.Collections.Generic;
+using Microsoft.Extensions.DependencyModel;
 
 namespace Structing.NetCore
 {
@@ -10,7 +13,7 @@ namespace Structing.NetCore
     {
         class PluginLoadResult : IPluginLoadResult
         {
-            public PluginLoadResult(PluginLookupBuildResult buildResult, IServiceProvider serviceProvider)
+            public PluginLoadResult(PluginLookupBuildResult buildResult, IServiceProvider? serviceProvider)
             {
                 BuildResult = buildResult;
                 ServiceProvider = serviceProvider;
@@ -18,11 +21,14 @@ namespace Structing.NetCore
 
             public PluginLookupBuildResult BuildResult { get; }
 
-            public IServiceProvider ServiceProvider { get; }
+            public IServiceProvider? ServiceProvider { get; }
 
             public void Dispose()
             {
-                BuildResult.Modules.StopAsync(ServiceProvider);
+                if (ServiceProvider != null)
+                {
+                    BuildResult.Modules.StopAsync(ServiceProvider);
+                }
             }
         }
         public PluginHostLoader(string pluginFolder, string mainPluginName, PluginLoader? pluginLoader = null)
@@ -47,7 +53,8 @@ namespace Structing.NetCore
 
         public int ReloadCount => Volatile.Read(ref reloadCount);
 
-        public async Task<IPluginLoadResult> ReLoadAsync()
+
+        private void EnsurePluginLoaderCreated()
         {
             if (pluginLoader == null)
             {
@@ -57,12 +64,37 @@ namespace Structing.NetCore
             {
                 pluginLoader.Reload();
             }
+        }
+
+        public IReadOnlyDictionary<PluginInfo,DependencyContext> GetDependencyContextMap()
+        {
+            EnsurePluginLoaderCreated();
+            var lookup = new PluginLookup();
+            var buildResult = lookup.LoadAssembly(pluginLoader!);
+            var res = new Dictionary<PluginInfo, DependencyContext>();
+            foreach (var item in buildResult)
+            {
+                res[item.Key]=DependencyContext.Load(item.Value);
+            }
+            return res;
+        }
+
+        public async Task<IPluginLoadResult> ReLoadAsync(PluginHostLoaderReloadOptions options)
+        {
+            EnsurePluginLoaderCreated();
             var lookup = new PluginLookup();
             LookupIniter?.Invoke(lookup);
-            var buildResult = lookup.Build(pluginLoader);
-            var res = await buildResult.BuildAsync(MainEntitySelector ?? DefaultMainEntitySelector);
-            await buildResult.Modules.StartAsync(res);
-            return new PluginLoadResult(buildResult, res);
+            var buildResult = lookup.Build(pluginLoader!);
+            IServiceProvider? provider = null;
+            if (options.ReloadMode.HasFlag( PluginReloadMode.Build))
+            {
+                provider = await buildResult.BuildAsync(MainEntitySelector ?? DefaultMainEntitySelector);
+            }
+            if (provider != null && options.ReloadMode.HasFlag(PluginReloadMode.Run))
+            {
+                await buildResult.Modules.StartAsync(provider);
+            }
+            return new PluginLoadResult(buildResult, provider);
         }
 
         private bool DefaultMainEntitySelector(IModuleEntry moduleEntry)

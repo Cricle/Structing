@@ -1,0 +1,13 @@
+{
+  "profiles": {
+    "Structing.HotReload.Compiler": {
+      "commandName": "Project",
+      "commandLineArgs": "C:\\Users\\huaji\\Workplace\\github\\Structing\\samples\\WebHotReload\\Structing.HotReload.WebHost\\bin\\Debug\\net7.0\\plugins\r\nC:\\Users\\huaji\\Workplace\\github\\Structing\\samples\\WebHotReload\\Structing.HotReload.WebHost\\bin\\Debug\\net7.0\\../../../../\r\nStructing.HotReload.Core;Structing.HotReload.School",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:65049;http://localhost:65050"
+    }
+  }
+}

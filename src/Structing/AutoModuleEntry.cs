@@ -1,7 +1,9 @@
-﻿using Structing;
-using Structing.Annotations;
+﻿using Structing.Annotations;
 using System;
 using System.Collections.Generic;
+#if NET8_0_OR_GREATER
+using System.Diagnostics.CodeAnalysis;
+#endif
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -19,15 +21,28 @@ namespace Structing
         {
             return ModuleInfo.FromAssembly(GetAssembly());
         }
+#if NET8_0_OR_GREATER
+        [RequiresUnreferencedCode("Use GetAssembly().GetTypes() in method")]
+#endif
         public virtual Task ReadyAsync(IReadyContext context)
         {
             return RunAttirbuteAsync<ReadyModuleAttribute>((a, c) => c.ReadyAsync(context, a));
         }
+#if NET8_0_OR_GREATER
+        [RequiresUnreferencedCode("Use GetAssembly().GetTypes() in method")]
+#endif   
         public virtual void Register(IRegisteContext context)
         {
             RunAttribute<ServiceRegisterAttribute>((a, b) => b.Register(context, a));
         }
-        protected void RunAttribute<T>(Action<Type, T> run)
+#if NET8_0_OR_GREATER
+        [RequiresUnreferencedCode("Use GetAssembly().GetTypes() in method")]
+#endif       
+        protected void RunAttribute<
+#if NET8_0_OR_GREATER
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)]
+# endif
+            T>(Action<Type, T> run)
             where T : Attribute
         {
             var attrs = FindType<T>();
@@ -39,7 +54,15 @@ namespace Structing
                 }
             }
         }
-        protected async Task RunAttirbuteAsync<T>(Func<Type, T, Task> run)
+
+#if NET8_0_OR_GREATER
+        [RequiresUnreferencedCode("Use GetAssembly().GetTypes() in method")]
+#endif
+        protected async Task RunAttirbuteAsync<
+#if NET8_0_OR_GREATER
+            [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)]
+#endif
+            T>(Func<Type, T, Task> run)
             where T : Attribute
         {
             var attrs = FindType<T>();
@@ -72,7 +95,14 @@ namespace Structing
             }
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected IReadOnlyDictionary<Type, T[]> FindType<T>()
+#if NET8_0_OR_GREATER
+        [RequiresUnreferencedCode("Use GetAssembly().GetTypes() in method")]
+#endif
+        protected IReadOnlyDictionary<Type, T[]> FindType<
+#if NET8_0_OR_GREATER
+            [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)]
+#endif
+            T>()
             where T : Attribute
         {
             var types = GetAssembly().GetTypes();

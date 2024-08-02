@@ -171,6 +171,9 @@ namespace Structing.CodeGen.Internal
         }}
         partial void OnReadyRegister(global::Structing.IRegisteContext context);
 
+#if NET8_0_OR_GREATER
+        [global::System.Diagnostics.CodeAnalysis.RequiresUnreferencedCode(""Use refleciton in method"")]
+#endif
         public sealed override void Register(global::Structing.IRegisteContext context)
         {{
             {string.Join("\n", modulePart.Where(x => x.Position == 1).Select(x => x.Call))}
@@ -180,6 +183,9 @@ namespace Structing.CodeGen.Internal
 
         partial void OnRegister(global::Structing.IRegisteContext context);
 
+#if NET8_0_OR_GREATER
+        [global::System.Diagnostics.CodeAnalysis.RequiresUnreferencedCode(""Use refleciton in method"")]
+#endif
         public sealed override void AfterRegister(global::Structing.IRegisteContext context)
         {{
             {string.Join("\n", modulePart.Where(x => x.Position == 2).Select(x => x.Call))}
@@ -188,16 +194,25 @@ namespace Structing.CodeGen.Internal
         }}
         partial void OnAfterRegister(global::Structing.IRegisteContext context);
 
+#if NET8_0_OR_GREATER
+        [global::System.Diagnostics.CodeAnalysis.RequiresUnreferencedCode(""Use refleciton in method"")]
+#endif
         public override async global::System.Threading.Tasks.Task BeforeReadyAsync(global::Structing.IReadyContext context)
         {{
             {string.Join("\n", moduleInit.Where(x => x.Position == 0).Select(x => x.Call))}
             await base.BeforeReadyAsync(context);
         }}
+#if NET8_0_OR_GREATER
+        [global::System.Diagnostics.CodeAnalysis.RequiresUnreferencedCode(""Use refleciton in method"")]
+#endif
         public override async global::System.Threading.Tasks.Task ReadyAsync(global::Structing.IReadyContext context)
         {{
             {string.Join("\n", moduleInit.Where(x => x.Position == 1).Select(x => x.Call))}
             await base.ReadyAsync(context);
         }}
+#if NET8_0_OR_GREATER
+        [global::System.Diagnostics.CodeAnalysis.RequiresUnreferencedCode(""Use refleciton in method"")]
+#endif
         public override async global::System.Threading.Tasks.Task AfterReadyAsync(global::Structing.IReadyContext context)
         {{
             {string.Join("\n", moduleInit.Where(x => x.Position == 2).Select(x => x.Call))}
