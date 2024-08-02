@@ -1,5 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
 using Structing.CodeGen.Internal;
+using System.Diagnostics;
 
 namespace Structing.CodeGen
 {

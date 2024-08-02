@@ -80,15 +80,39 @@ namespace Structing.CodeGen.Internal
                 }
             }
         }
+        private static IEnumerable<INamedTypeSymbol> GetNamedTypeSymbols(Compilation compilation,IAssemblySymbol symbol)
+        {
+            var stack = new Stack<INamespaceSymbol>();
+            stack.Push(compilation.GlobalNamespace);
 
+            while (stack.Count > 0)
+            {
+                var @namespace = stack.Pop();
+
+                foreach (var member in @namespace.GetMembers())
+                {
+                    if (SymbolEqualityComparer.Default.Equals(symbol, member.ContainingAssembly))
+                    {
+                        if (member is INamespaceSymbol memberAsNamespace)
+                        {
+                            stack.Push(memberAsNamespace);
+                        }
+                        else if (member is INamedTypeSymbol memberAsNamedTypeSymbol&&memberAsNamedTypeSymbol.TypeKind== TypeKind.Class)
+                        {
+                            yield return memberAsNamedTypeSymbol;
+                        }
+                    }
+                }
+            }
+        }
         public void Execute(SourceProductionContext context, GeneratorTransformResult<ISymbol?> node)
         {
             var model = node.SyntaxContext.SemanticModel;
             var modulePart = new List<MethodInfo>();
             var moduleInit = new List<MethodInfo>();
-            foreach (var item in node.AssemblySymbol.TypeNames)
+            var sm = GetNamedTypeSymbols(model.Compilation,node.AssemblySymbol);
+            foreach (var comp in sm)
             {
-                var comp = model.Compilation.GetTypeByMetadataName($"{node.AssemblySymbol.Name}.{item}");
                 if (comp != null && comp.TypeKind == TypeKind.Class)
                 {
                     var attrs = comp.GetAttributes();
