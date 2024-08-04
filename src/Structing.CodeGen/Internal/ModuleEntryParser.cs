@@ -91,16 +91,13 @@ namespace Structing.CodeGen.Internal
 
                 foreach (var member in @namespace.GetMembers())
                 {
-                    if (SymbolEqualityComparer.Default.Equals(symbol, member.ContainingAssembly))
+                    if (member is INamespaceSymbol memberAsNamespace)
                     {
-                        if (member is INamespaceSymbol memberAsNamespace)
-                        {
-                            stack.Push(memberAsNamespace);
-                        }
-                        else if (member is INamedTypeSymbol memberAsNamedTypeSymbol&&memberAsNamedTypeSymbol.TypeKind== TypeKind.Class)
-                        {
-                            yield return memberAsNamedTypeSymbol;
-                        }
+                        stack.Push(memberAsNamespace);
+                    }
+                    else if (member is INamedTypeSymbol memberAsNamedTypeSymbol && memberAsNamedTypeSymbol.TypeKind == TypeKind.Class)
+                    {
+                        yield return memberAsNamedTypeSymbol;
                     }
                 }
             }
@@ -110,7 +107,8 @@ namespace Structing.CodeGen.Internal
             var model = node.SyntaxContext.SemanticModel;
             var modulePart = new List<MethodInfo>();
             var moduleInit = new List<MethodInfo>();
-            var sm = GetNamedTypeSymbols(model.Compilation,node.AssemblySymbol);
+            var sm = GetNamedTypeSymbols(model.Compilation,node.AssemblySymbol).Where(x=> SymbolEqualityComparer.Default.Equals(node.AssemblySymbol, x.ContainingAssembly));
+            Debugger.Launch();
             foreach (var comp in sm)
             {
                 if (comp != null && comp.TypeKind == TypeKind.Class)
