@@ -108,7 +108,7 @@ namespace Structing.CodeGen.Internal
             var modulePart = new List<MethodInfo>();
             var moduleInit = new List<MethodInfo>();
             var sm = GetNamedTypeSymbols(model.Compilation,node.AssemblySymbol).Where(x=> SymbolEqualityComparer.Default.Equals(node.AssemblySymbol, x.ContainingAssembly));
-            Debugger.Launch();
+            
             foreach (var comp in sm)
             {
                 if (comp != null && comp.TypeKind == TypeKind.Class)
