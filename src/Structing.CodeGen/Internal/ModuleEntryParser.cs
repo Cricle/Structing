@@ -51,7 +51,8 @@ namespace Structing.CodeGen.Internal
                 Attribute = attribute;
                 var posArg = attribute.NamedArguments.FirstOrDefault(x => x.Key == ModuleEntryConst.Positions);
                 var orderArg = attribute.NamedArguments.FirstOrDefault(x => x.Key == ModuleEntryConst.Order);
-                _ = posArg.Value.Value == null && int.TryParse(posArg.Value.Value?.ToString(), out Position);
+                _ = posArg.Value.Value != null && int.TryParse(posArg.Value.Value?.ToString(), out Position);
+                //Debugger.Launch();
                 if (Position < 0 && Position > 3)
                 {
                     Position = 1;
@@ -219,7 +220,7 @@ namespace Structing.CodeGen.Internal
 #if NET8_0_OR_GREATER
         [global::System.Diagnostics.CodeAnalysis.RequiresUnreferencedCode(""Use refleciton in method"")]
 #endif
-        public override async global::System.Threading.Tasks.Task BeforeReadyAsync(global::Structing.IReadyContext context)
+        public sealed override async global::System.Threading.Tasks.Task BeforeReadyAsync(global::Structing.IReadyContext context)
         {{
             {string.Join("\n", moduleInit.Where(x => x.Position == 0).Select(x => x.Call))}
             await base.BeforeReadyAsync(context);
@@ -227,7 +228,7 @@ namespace Structing.CodeGen.Internal
 #if NET8_0_OR_GREATER
         [global::System.Diagnostics.CodeAnalysis.RequiresUnreferencedCode(""Use refleciton in method"")]
 #endif
-        public override async global::System.Threading.Tasks.Task ReadyAsync(global::Structing.IReadyContext context)
+        public sealed override async global::System.Threading.Tasks.Task ReadyAsync(global::Structing.IReadyContext context)
         {{
             {string.Join("\n", moduleInit.Where(x => x.Position == 1).Select(x => x.Call))}
             await base.ReadyAsync(context);
@@ -235,11 +236,11 @@ namespace Structing.CodeGen.Internal
 #if NET8_0_OR_GREATER
         [global::System.Diagnostics.CodeAnalysis.RequiresUnreferencedCode(""Use refleciton in method"")]
 #endif
-        public override async global::System.Threading.Tasks.Task AfterReadyAsync(global::Structing.IReadyContext context)
+        public sealed override async global::System.Threading.Tasks.Task AfterReadyAsync(global::Structing.IReadyContext context)
         {{
             {string.Join("\n", moduleInit.Where(x => x.Position == 2).Select(x => x.Call))}
             await base.AfterReadyAsync(context);
-        }}    
+        }}
     }}
 
 {nsEnd}
@@ -248,6 +249,7 @@ namespace Structing.CodeGen.Internal
             context.AddSource($"{name}.g.cs", code);
 
         }
+        
         private static bool IsModulePart(IMethodSymbol symbol)
         {
             return symbol.ReturnsVoid && 
